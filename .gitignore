@@ -5,6 +5,7 @@
 *.swp
 *.out
 
+clases/*
 dompdf/*
 font-awesome-4.3.0/*
 img/*.*
