@@ -1,0 +1,467 @@
+body                                        { 
+                                                -webkit-user-select: none;
+                                                -moz-user-select: none;
+                                                -khtml-user-select: none;
+                                                cursor: default;
+                                                background-color: #E1E1E1;
+                                                
+                                            }
+
+
+
+
+#loading 				                    { 
+                                                position: fixed; top: 0px; left: 0px; 
+                                                width: 100%; height: 100%; display: none; 
+                                                background: #777; 
+                                                background: rgba(0,0,0,0.7); 
+                                                z-index: 99999999;
+                                                text-align: center;
+                                            }
+#loading-icon  			                    { 
+                                                position: absolute; display: block; 
+                                                background: #000; top: 50%; left: 50%; 
+                                                margin-top: -36px; margin-left: -36px; 
+                                                padding: 20px; border-radius: 10px;  
+                                            }
+
+.datagrid table                             {  table-layout:fixed; }
+.datagrid table td,
+.datagrid table th                          { 
+                                      
+                                                overflow:hidden;
+                                                text-overflow:ellipsis;
+                                                white-space:nowrap;
+                                                cursor:default;
+                                                
+                                            }
+.datagrid table th                          { }
+
+.datagrid table tr td:first-child,
+.datagrid table tr th:first-child           { width:30px; }
+/*.datagrid table tr td:nth-last-child(2),
+.datagrid table tr th:nth-last-child(2)     { width:100px; text-align:center; }
+
+.datagrid table tr td:nth-last-child(1),
+.datagrid table tr th:nth-last-child(1)     { width:150px; text-align:center; }*/
+
+.datagrid table tr td:first-child,
+.datagrid table tr th:first-child,
+.datagrid table tr td:nth-child(2),
+.datagrid table tr th:nth-child(2)          { display:table-cell; }
+
+.datagrid table td,
+.datagrid table th                          { display:none; }
+
+.modal-dialog-fullscreen {
+  width: auto;
+  height: 100%;
+  padding: 0;
+  margin:0px;
+}
+
+.modal-content-fullscreen {
+  height: auto;
+  border-radius: 0;
+}
+
+.modal-dialog-75-screen {
+  width: auto;
+  height: 100%;
+  padding: 0;
+  margin:0px;
+}
+
+.modal-content-75-screen {
+  height: auto;
+  border-radius: 0;
+}
+
+.btn-strech
+{
+  font-size: 10px;
+  width: 20px;
+  padding: 1px;
+}
+.modal { overflow:auto; }
+
+#contenedor-cloud       { padding: 5px; height: 300px; overflow: auto; }
+#contenedor-cloud .thumbnail { text-align: center; }
+
+.btn-file {
+            position: relative;
+            overflow: hidden;
+        }
+.btn-file input[type=file] {
+            position: absolute;
+            top: 0;
+            right: 0;
+            min-width: 100%;
+            min-height: 100%;
+            font-size: 999px;
+            text-align: right;
+            filter: alpha(opacity=0);
+            opacity: 0;
+            background: red;
+            cursor: inherit;
+            display: block;
+        }
+input[readonly] {
+            background-color: white !important;
+            cursor: text !important;
+        }
+
+
+.alert-container                { position: fixed; top: 0; z-index: 99999999;  width: 100%; }
+.alert-container .alert         { margin:5px; }
+.alert-container .alert-danger  { box-shadow: 0px 0px 10px #300; }
+.alert-container .alert-success { box-shadow: 0px 0px 10px #030; }
+.alert-container .alert-info { box-shadow: 0px 0px 10px #003; }
+.alert-container .alert-warning { box-shadow: 0px 0px 10px #330; }
+
+
+.typeahead { width: 100%;left:0px !important;   }
+ul.typeahead li a {  white-space: nowrap; overflow: hidden !important; text-overflow: ellipsis; }
+
+button .hidden-xs{
+  display:none !important;
+}
+
+/* Prevenimos scroll en el body con ventanas modales */
+body.modal-open .page-container{
+  display: none;
+}
+
+.calendario
+{
+  width:100%;
+}
+
+.calendario_encabezado
+{
+  padding-top: 10px;
+  padding-bottom: 10px;
+  width: 14.28%;
+  float: left;
+  text-align: center;
+  background: #357ebd;
+  font-weight: bold;
+  color: #FFF;
+}
+
+.calendario_control_mes_izquierdo
+{
+  padding: 10px;
+  width: 5%;
+  float: left;
+}
+.calendario_control_mes
+{
+  padding: 10px;
+  width: 35%;
+  float: left;
+  text-align: center;
+  font-weight: bold;
+  vertical-align: middle;
+}
+.calendario_control_mes_derecho
+{
+  padding: 10px;
+  width: 5%;
+  float: left;
+}
+
+.calendario_control_buttons
+{
+  padding: 10px;
+  width: 30%;
+  float: left; 
+  text-align: right;
+}
+
+
+.calendario_dia
+{
+  height: 120px;
+  border-left: 1px solid #CFCFCF;
+  border-bottom: 1px solid #CFCFCF;
+  width: 14.28%;
+  float: left;
+}
+
+.calendario_dia_right
+{
+  border-right: 1px solid #CFCFCF;
+}
+
+.calendario_dia .dia
+{
+  background: #E1E1E1;
+  color: #666;
+  padding-left: 5%;
+  padding-top: 5%;
+}
+
+.calendario_dia .dia_evento
+{
+  /*background: #E1E1E1;*/
+  background: #55BB22;
+  color: #000;
+  padding-left: 5%;
+  padding-top: 5%;
+}
+
+.evento
+{
+  /*background: #F1F1F1;*/
+  color: #000;
+  padding-left: 5%;
+  padding-top: 5%;
+}
+
+.evento_seleccionado
+{
+  /*border:2px solid #55BB22;*/
+  background: #E1E1E1;
+}
+
+.registroAgenda
+{
+  border-bottom: 1px solid #CCC;
+  padding: 10px 0px 10px 0px;
+  text-transform: uppercase;
+}
+
+/*Message*/
+.Message
+{
+    /*background-color: rgb(230,100,30);*/
+    background-color: rgb(0,50,250);
+
+    color: #FFF;
+    padding: 13px;
+    font-weight: bold;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    z-index: 10000000;
+    display: none;
+}
+
+
+.close_Message
+{
+    float: right;
+    border: 2px solid #FFF;
+    padding: 0px 5px 0px 5px;
+    font-weight: bold;
+    cursor: pointer;
+}
+/*Fin Message*/
+
+/*Diseño estatus Agenda*/
+
+.estatus{
+    position: absolute;
+    height: 5px;
+    width: 100%;
+    bottom: 0;
+    background-color: #000;
+}
+.estatus_realizados
+{
+    background-color: #5A5;
+}
+
+.estatus_no_realizados
+{
+    background-color: #F05;
+}
+/*Fin diseño estatus agenda*/
+/* Extra small devices (phones, up  to 480px) */
+/* No media query since this is the default in Bootstrap */     
+
+
+/* Small devices (tablets, 768px and up) */
+@media (min-width: 300px) {  
+    
+
+    .calendario_encabezado
+    {
+      font-weight: normal;
+      font-size: 8px;
+    }
+    .calendario_dia
+    {
+      height: 40px;
+    }
+    .calendario_control_mes_derecho, .calendario_control_mes_izquierdo
+    {
+      display: none;
+    }
+    .calendario_control_buttons button
+    {
+      font-size: 8px;
+    }
+
+    .lista_eventos
+    {
+      display: none;
+    }
+
+    .navbar-brand {
+      font-size: 12px;
+    }
+  }
+
+@media (min-width: 500px) {  
+    
+    .calendario_dia
+    {
+      height: 70px;
+    }
+
+    .navbar-brand {
+      font-size: 18px;
+    }
+  }
+@media (min-width: 768px) { 
+    button .hidden-xs{
+      display:inline-block !important;
+    }
+    
+
+    .datagrid table td,
+    .datagrid table th          { display:table-cell; }
+    .modal-dialog-fullscreen    { height:auto; margin:30px; height: auto; }
+    .modal-dialog-75-screen     { width: 75%; margin-top:30px; height: auto; margin-left:12.5%; }
+
+    .calendario
+    {
+      width:700px;
+    }
+    .calendario_dia
+    {
+      height: 90px;
+    }
+}
+
+/* Medium devices (desktops, 992px and up) */
+@media (min-width: 992px) { 
+     /* Desactivamos la prevención de scroll en el body con ventanas modales */
+     
+     body.modal-open .page-container{
+       display: inherit;
+     }
+
+     .calendario
+    {
+      width:910px;
+    }
+      
+     .calendario_encabezado
+    {
+      font-weight: bold;
+      font-size: 14px;
+    }
+    .calendario_dia
+    {
+      height: 120px;
+    }
+    .calendario_control_mes_derecho, .calendario_control_mes_izquierdo
+    {
+      display: block;
+    }
+    .calendario_control_buttons button
+    {
+      font-size: 14px;
+    }
+
+    .lista_eventos
+    {
+      display: block;
+    }
+}
+
+/* Large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+        
+    .calendario
+    {
+      width:1100px;
+    }
+    .calendario_encabezado
+    {
+      font-weight: bold;
+      font-size: 14px;
+    }
+    .calendario_dia
+    {
+      height: 120px;
+    }
+    .calendario_control_mes_derecho, .calendario_control_mes_izquierdo
+    {
+      display: block;
+    }
+    .calendario_control_buttons button
+    {
+      font-size: 14px;
+    }
+    .table-responsive
+    {
+      font-size: 11px;
+    }
+  }
+
+
+.table{
+    font-size: 9pt;
+}
+
+.nav-tabs li:not(.active) a
+{
+  background-color: #B2E5F1 !important;
+}
+
+.caja
+{
+    width: 93%;
+    max-height: 300px;
+    border: 1px solid #CFCFCF;
+    position: absolute;
+    z-index: 1;
+    background-color: #FFFFFF;
+    margin-top: 54px;
+}
+
+.caja_registros
+{
+    padding: 0.5em 0.6em;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.caja_registros:nth-child(odd)
+{
+    background: #DFDFDF;
+}
+
+.caja_registros:hover
+{
+  background-color: #BFBFFF;
+}
+
+@charset "utf-8";
+/* CSS Document */
+
+@font-face{
+   font-family: Navidad;
+   src: url(../fonts/Navidad.ttf);
+   
+}
+
+@font-face{
+   font-family: Navidad_two;
+   src: url(../fonts/Navidad2.ttf);
+   
+}
