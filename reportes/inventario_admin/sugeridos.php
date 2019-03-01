@@ -66,6 +66,11 @@ foreach($arreglo1 as $key => $value)
             }
         }else
         {
+            if($value[$key2]['LARGO'] == 0)
+                $value[$key2]['LARGO'] = 1;
+            if($value[$key2]['ANCHO'] == 0)
+                $value[$key2]['ANCHO'] = 1;  
+                  
             $inventario = ($value[$key2]['INVENTARIO'] / ($value[$key2]['LARGO'] * $value[$key2]['ANCHO']));
             if($value[$key2]['SUGERIDO'] > $value[$key2]['INVENTARIO'])
             {
