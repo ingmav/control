@@ -56,8 +56,6 @@ foreach($arreglo1 as $key => $value)
             $inventario = ($value[$key2]['INVENTARIO'] / $value[$key2]['PAQUETE']);
             if($value[$key2]['SUGERIDO'] > $value[$key2]['INVENTARIO'])
             {
-                if($value[$key2]['PAQUETE'] == 0)
-                $value[$key2]['PAQUETE'] = 1;
                 $sugerido   = (($value[$key2]['SUGERIDO'] - $value[$key2]['INVENTARIO']) / $value[$key2]['PAQUETE']);
                 $precio     = round(($sugerido * $value[$key2]['PRECIO_UNITARIO']),2);
             }
