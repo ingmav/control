@@ -74,7 +74,7 @@
 		$campo = "TABLEROPRODUCCION.DOCTO_VE_ID";
 		$join = array();
 		
-		$condicionales = " AND TABLEROPRODUCCION.FINALIZAR_PROCESO=1 and TABLEROPRODUCCION.fecha>='2018.03.10'";
+		$condicionales = " AND TABLEROPRODUCCION.FINALIZAR_PROCESO=1 and TABLEROPRODUCCION.fecha>='2019.03.14'";
 
 		$conection2 = new conexion_nexos($Empresa);
 
@@ -104,7 +104,7 @@
 
 		$order = array("DOCTOS_VE.FECHA DESC, DOCTOS_VE.FOLIO DESC");
 		
-		$condicionales .=" AND  DOCTOS_VE.FECHA>='10.03.2018' ";
+		$condicionales .=" AND  DOCTOS_VE.FECHA>='14.03.2019' ";
 	
 		//$json = $conection2->select_table($campos, "DOCTOS_VE", $join2, $condicionales, $order, 0, null);
 		$json = $conection2->select_table_advanced_with_counter($campos, $campos, "DOCTOS_VE", $join2, $condicionales, $order, 0, NULL, $Empresa);
