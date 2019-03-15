@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 session_start();
 include("funciones/phpfunctions.php");
 ?>
@@ -499,9 +499,7 @@ include("funciones/phpfunctions.php");
                                            
                                        </thead>
                                        <tbody id="lista_factura">
-                                           <tr>
-                                                <td colspan="6">No hay Artículos ingresados</td>
-                                           </tr>
+                                           
                                        </tbody>
                                        <tfoot>
                                            <th colspan="4"></th>

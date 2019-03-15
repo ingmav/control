@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 	header("Content-type: application/rtf; charset=utf-8");
 	include("../clases/conexion.php");
 	include("../clases/utilerias.php");
@@ -6,6 +6,9 @@
 	session_start();
 	
 	date_default_timezone_set('America/Mexico_City');
+	
+	//$conection = new conexion_nexos($_POST['empresa']);
+
 	
 	if($_POST["accion"] == "index")
 	{
@@ -85,8 +88,8 @@ ORDER BY MF.DESCRIPCION, MA.NOMBRE_ARTICULO";
 			$json[$indice]['MONTO_UNITARIO']			= floatval($row->MONTO_UNITARIO);
 			$json[$indice]['REGISTROS']					= $row->REGISTROS;
 			$json[$indice]['CANTIDAD_USO']				= $row->CANTIDAD_USO;
-			$json[$indice]['ARTICULO'] 					= utf8_encode($row->NOMBRE_ARTICULO." (".$row->FAMILIA.") ");
-			$json[$indice]['FAMILIA'] 					= utf8_encode($row->FAMILIA);
+			$json[$indice]['ARTICULO'] 					= $row->NOMBRE_ARTICULO." (".$row->FAMILIA.") ";
+			$json[$indice]['FAMILIA'] 					= $row->FAMILIA;
 			$json[$indice]['ACTUALIZACION']				= $row->ACTUALIZACION;
 			$json[$indice]['CANTIDAD_MINIMA']			= $row->CANTIDAD_MINIMA;
 			$json[$indice]['DIMENSION']					= $row->DIMENSION;
@@ -138,9 +141,148 @@ ORDER BY MF.DESCRIPCION, MA.NOMBRE_ARTICULO";
 		$arreglo_respuesta = array("ARTICULOS"=>$json, "TOTAL"=>number_format($total_precio_unitario,2));
 		$obj = (object) $arreglo_respuesta;
 		echo json_encode($obj);
-    }
-    
-    if($_POST["accion"] == "formularios")
+ 					
+ 		/*$query = "select  
+ 					MA.ID, 
+ 					MA.NOMBRE_ARTICULO,
+ 					MF.DESCRIPCION AS FAMILIA,
+ 					MA.ACTUALIZACION, 
+ 					MA.CANTIDAD_MINIMA,
+ 					IIF ((SELECT FIRST 1 MI.CANTIDAD FROM MS_INVENTARIO MI WHERE MI.ms_articulo_id=MA.id AND MI.ESTATUS_INVENTARIO=0 ORDER by MI.id_inventario) IS NULL, 1, 0) AS BANDERA,
+ 					IIF ((SELECT FIRST 1 MI.CANTIDAD FROM MS_INVENTARIO MI WHERE MI.ms_articulo_id=MA.id ORDER by MI.id_inventario) IS NULL, 1, 0) AS BANDERA2,
+					(SELECT AVG(CANTIDAD) FROM MS_INVENTARIO MI WHERE MI.ms_articulo_id=MA.id AND MI.ESTATUS_INVENTARIO=0) AS CANTIDAD,
+					(SELECT AVG(PRECIO_COMPRA) FROM MS_INVENTARIO MI WHERE MI.ms_articulo_id=MA.id AND MI.ESTATUS_INVENTARIO=0) AS PRECIO_COMPRA,
+					(SELECT FIRST 1 PRECIO_COMPRA FROM MS_INVENTARIO MI WHERE MI.ms_articulo_id=MA.id ORDER BY MI.ID_INVENTARIO) AS PRECIO_COMPRA_2,
+					(SELECT SUM(MI.CANTIDAD_RESTANTE) FROM MS_INVENTARIO MI WHERE MI.ms_articulo_id=MA.id AND MI.ESTATUS_INVENTARIO=0 AND MI.CANTIDAD_RESTANTE>0) AS CANTIDAD_RESTANTE,
+					(select count(*) from ms_inventario where ms_articulo_id=ma.id and activo=0 AND ESTATUS_INVENTARIO=0) AS REGISTROS,
+					(select sum(cantidad_restante) from ms_inventario where ms_articulo_id=ma.id and activo=1 AND ESTATUS_INVENTARIO=0) AS CANTIDAD_USO,
+					MA.paquete,
+					MA.UNIDAD_VENTA,
+					MA.UNIDAD_COMPRA,
+					MA.UNITARIO,
+					MA.ANCHO,
+					MA.LARGO
+					from  MS_ARTICULOS MA, MS_FAMILIA MF
+					WHERE MA.ESTATUS=0 ".$consulta_filtro."
+					AND MA.MS_FAMILIA_ID=MF.ID
+					ORDER BY MF.DESCRIPCION, MA.NOMBRE_ARTICULO";
+		
+
+        $result = ibase_query($conection2->getConexion(), $query) or die(ibase_errmsg());
+        $json = array();
+        $total_precio_unitario = 0;
+        $arreglo = array();
+		
+        
+		while ($row = ibase_fetch_object ($result, IBASE_TEXT)){
+			
+
+			$indice = count($json);
+
+			if($row->BANDERA == 1)
+			{ 
+				
+				$json[$row->ID]['INVENTARIO_INICIAL']		= 0;
+				$json[$row->ID]['INVENTARIO']				= 0;
+				$json[$row->ID]['CANTIDAD']					= 0;
+
+				if($row->BANDERA2 == 1)
+				{
+					$json[$row->ID]['PRECIO_COMPRA']			= 0;
+				}else
+				{
+					$json[$row->ID]['PRECIO_COMPRA']			= $row->PRECIO_COMPRA_2;
+				}
+				
+			}else
+			{
+				$json[$row->ID]['INVENTARIO_INICIAL']		= $row->CANTIDAD_RESTANTE;
+				$json[$row->ID]['INVENTARIO']				= $row->CANTIDAD_RESTANTE;
+				$json[$row->ID]['CANTIDAD']					= $row->CANTIDAD;
+				$json[$row->ID]['PRECIO_COMPRA']			= $row->PRECIO_COMPRA;
+			}
+
+			$json[$row->ID]['ARTICULO_ID'] 				= $row->ID;
+			$json[$row->ID]['REGISTROS'] 				= $row->REGISTROS;
+			$json[$row->ID]['PAQUETE'] 					= $row->PAQUETE;
+			$json[$row->ID]['UNITARIO'] 				= $row->UNITARIO;
+			$json[$row->ID]['UNIDAD_VENTA'] 			= $row->UNIDAD_VENTA;
+			$json[$row->ID]['UNIDAD_COMPRA'] 			= $row->UNIDAD_COMPRA;
+			$json[$row->ID]['CANTIDAD_USO'] 			= $row->CANTIDAD_USO;
+			$json[$row->ID]['ANCHO'] 					= $row->ANCHO;
+			$json[$row->ID]['LARGO'] 					= $row->LARGO;
+			$json[$row->ID]['ARTICULO'] 				= utf8_encode($row->NOMBRE_ARTICULO." (".$row->FAMILIA.") ");
+			$json[$row->ID]['ACTUALIZACION']			= $row->ACTUALIZACION;
+			$json[$row->ID]['MS_INVENTARIO']			= 0;
+			$json[$row->ID]['SUGERIDA']					= 0;
+			$json[$row->ID]['CANTIDAD_MINIMA']			= $row->CANTIDAD_MINIMA;
+			
+			
+			$json[$row->ID]['INDICE']					= $indice;
+			$json[$row->ID]['BANDERA']					= $row->BANDERA;
+
+			
+
+			if($row->CANTIDAD > 0)
+				$json[$row->ID]['PRECIO_UNITARIO']		= ($row->PRECIO_COMPRA / $row->CANTIDAD);
+			else
+				$json[$row->ID]['PRECIO_UNITARIO']		= 0;
+
+			
+
+		$query_inventario_calculado = "select sum(unidades) as unidades from
+(SELECT sum(dpd.unidades) as unidades FROM doctos_pv dp, doctos_pv_det dpd, ms_relacion mr, ms_articulos ma
+where dp.docto_pv_id=dpd.docto_pv_id
+and dp.fecha_hora_creacion>ma.actualizacion
+and dpd.articulo_id=mr.articulo_id
+and mr.ms_articulo_id=ma.id
+and  MR.ms_articulo_id=".$row->ID."
+and MR.ms_tipo_baja_id=1
+and ma.estatus=0
+and dp.tipo_docto in('V')
+and dp.estatus!='C'
+union all
+SELECT sum(dvd.unidades) as unidades FROM doctos_ve dv, doctos_ve_det dvd, ms_relacion mr, ms_articulos ma
+where dv.docto_ve_id=dvd.docto_ve_id
+and dv.fecha_hora_creacion>ma.actualizacion
+and dvd.articulo_id=mr.articulo_id
+and mr.ms_articulo_id=ma.id
+and  MR.ms_articulo_id=".$row->ID."
+and MR.ms_tipo_baja_id=1
+and ma.estatus=0
+and dv.tipo_docto in('F')
+and dv.estatus!='C' ) x";
+        
+        $result_calculado = ibase_query($conection2->getConexion(), $query_inventario_calculado) or die(ibase_errmsg());
+        
+			while ($row_calculado = ibase_fetch_object ($result_calculado, IBASE_TEXT)){
+				$json[$row->ID]['MS_INVENTARIO'] = (is_numeric($row_calculado->UNIDADES)? $row_calculado->UNIDADES: 0);
+				$cantidad_restante 				 = $row->CANTIDAD_RESTANTE - $json[$row->ID]['MS_INVENTARIO'];
+				$json[$row->ID]['INVENTARIO'] -= $json[$row->ID]['MS_INVENTARIO'];
+				//$json[$row->ID]['INVENTARIO']  = number_format($json[$row->ID]['INVENTARIO'],2);
+				$json[$row->ID]['SUGERIDA'] 	 = ($cantidad_restante < $row->CANTIDAD_MINIMA ) ? ($row->CANTIDAD_MINIMA - $cantidad_restante ): 0;
+
+				$precio_articulo = (($cantidad_restante>0)? $cantidad_restante:0) * $json[$row->ID]['PRECIO_UNITARIO'];
+				$json[$row->ID]['PRECIO_TOTAL'] = number_format($precio_articulo,2); 
+
+				$total_precio_unitario += $precio_articulo;
+			}	
+		}
+		$count = 0;
+		
+		$j = 1;
+
+		
+		
+		$conection1 = null;
+		$conection2 = null;
+
+		$arreglo_respuesta = array("ARTICULOS"=>$json, "TOTAL"=>number_format($total_precio_unitario,2));
+		$obj = (object) $arreglo_respuesta;
+		echo json_encode($obj);*/
+	}
+
+	if($_POST["accion"] == "formularios")
 	{
 		$conection2 = new conexion_nexos(2);
 		
@@ -215,53 +357,9 @@ ORDER BY MF.DESCRIPCION, MA.NOMBRE_ARTICULO";
 
 		$obj = (object) array("ARTICULOS" => $json, "ALMACENES"=>$json2, "CATEGORIA"=>$json3, "PROVEEDOR"=>$json4);
 		echo json_encode($obj);
-    }
-    
-    if($_POST['accion'] == "guardar_insumo")
-	{
-			
-		$conection2 = new conexion_nexos(2);
-		$campos = array("NOMBRE_ARTICULO", 
-						"ESTATUS", 
-						"MS_FAMILIA_ID", 
-						"CANTIDAD_MINIMA", 
-						"ACTUALIZACION",
-						"UNITARIO",
-						"ANCHO",
-						"LARGO",
-						"UNIDAD_VENTA",
-						"PAQUETE",
-						"UNIDAD_COMPRA"
-						);
+	}
 
-		$_POST['ancho'] = ($_POST['unitario'] == 1)? 0: $_POST['ancho'];		
-		$valores = array("'".strtoupper(utf8_decode($_POST['insumo']))."'", 
-						0,
-						$_POST['familia'],
-						$_POST['minimo'],
-						"'".date("Y-m-d H:i:s")."'", 
-						$_POST['unitario'],
-						($_POST['unitario']==0)? $_POST['ancho']:0,
-						($_POST['unitario']==0)? $_POST['largo']:0,
-						"'".$_POST['u_venta']."'",
-						($_POST['unitario']==1)?$_POST['u_paquete']:0,
-						"'".$_POST['u_compra']."'"
-						);
-		
-		if($_POST['id'] > 0)
-		{
-			$json = $conection2->update_table($campos, "MS_ARTICULOS", $valores, " ID=".$_POST['id']);
-		}else
-		{
-			$json = $conection2->insert_table($campos, "MS_ARTICULOS", $valores);
-		}
-		
-		$obj = (object) $json;
-        echo json_encode($obj);
-        $conection2 = null;
-    }
-    
-    if($_POST["accion"] == "baja")
+	if($_POST["accion"] == "baja")
 	{
 		$conection2 = new conexion_nexos(2);
 		$campos = array("ESTATUS_INVENTARIO");
@@ -873,7 +971,49 @@ and dv.estatus!='C' ) x";
 
 
 
-	
+	if($_POST['accion'] == "guardar_insumo")
+	{
+			
+		$conection2 = new conexion_nexos(2);
+		$campos = array("NOMBRE_ARTICULO", 
+						"ESTATUS", 
+						"MS_FAMILIA_ID", 
+						"CANTIDAD_MINIMA", 
+						"ACTUALIZACION",
+						"UNITARIO",
+						"ANCHO",
+						"LARGO",
+						"UNIDAD_VENTA",
+						"PAQUETE",
+						"UNIDAD_COMPRA"
+						);
+
+		$_POST['ancho'] = ($_POST['unitario'] == 1)? 0: $_POST['ancho'];		
+		$valores = array("'".strtoupper($_POST['insumo'])."'", 
+						0,
+						$_POST['familia'],
+						$_POST['minimo'],
+						"'".date("Y-m-d H:i:s")."'", 
+						$_POST['unitario'],
+						($_POST['unitario']==0)? $_POST['ancho']:0,
+						($_POST['unitario']==0)? $_POST['largo']:0,
+						"'".$_POST['u_venta']."'",
+						($_POST['unitario']==1)?$_POST['u_paquete']:0,
+						"'".$_POST['u_compra']."'"
+						);
+		
+		if($_POST['id'] > 0)
+		{
+			$json = $conection2->update_table($campos, "MS_ARTICULOS", $valores, " ID=".$_POST['id']);
+		}else
+		{
+			$json = $conection2->insert_table($campos, "MS_ARTICULOS", $valores);
+		}
+		
+		$obj = (object) $json;
+        echo json_encode($obj);
+        $conection2 = null;
+	}
 
 	if($_POST['accion'] == "proveedor")
 	{
@@ -1690,4 +1830,3 @@ order by fecha_hora_creacion";
         echo json_encode($obj);
         $conection2 = null;	
 	}
-?>
