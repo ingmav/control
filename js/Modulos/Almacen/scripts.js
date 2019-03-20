@@ -174,7 +174,7 @@
 		if($("#lista_factura tr").length > 0)
 		{
 			$("#FORM_ALMACEN #doble_factura").hide();
-			var variable = "accion=|";
+			var variable = "accion=cerrar_factura";
 			RestFullRequest("_Rest/Almacen.php", variable, "actualiza_tabla_inventario",1);
 			actualiza_lista_factura();
 			$("#FORM_ALMACEN").find("input").val("");
