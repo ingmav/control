@@ -381,45 +381,50 @@ ORDER BY MF.DESCRIPCION, MA.NOMBRE_ARTICULO";
 
 	if($_POST["accion"] == "cerrar_factura")
 	{
-		$conection2 = new conexion_nexos(2);
-		
-		$query = "select FACTURA_COMPRA, MS_PROVEEDOR_ID, FECHA_FACTURA, MS_ARTICULO_ID, sum(PRECIO_COMPRA) as PRECIO_COMPRA, ANCHO, LARGO, COUNT(*) AS CANTIDAD FROM MS_INVENTARIO WHERE TIPO='B' GROUP BY FACTURA_COMPRA, MS_PROVEEDOR_ID, FECHA_FACTURA, MS_ARTICULO_ID, ANCHO, LARGO";
-        
-        $result = ibase_query($conection2->getConexion(), $query) or die(ibase_errmsg());
-       	$json = array();
-		while ($row = ibase_fetch_object ($result, IBASE_TEXT)){
+		try
+		{
+			$conection2 = new conexion_nexos(2);
 			
-			$campos = array("FACTURA", "MS_PROVEEDOR_ID", "FECHA_FACTURA", "MS_ARTICULO_ID", "MONTO", "PAGADO", "CANTIDAD", "ANCHO", "LARGO");
-			
-			$valores = array("'".$row->FACTURA_COMPRA."'", $row->MS_PROVEEDOR_ID, "'".$row->FECHA_FACTURA."'", $row->MS_ARTICULO_ID, $row->PRECIO_COMPRA, 0 , $row->CANTIDAD, $row->ANCHO, $row->LARGO);
-			//print_r($valores);
-			$conection2->insert_table($campos, "MS_PAGOS", $valores);
-			
-			$query1 = "INSERT INTO MS_PAGOS(FACTURA, MS_PROVEEDOR_ID, FECHA_FACTURA, MS_ARTICULO_ID, MONTO, PAGADO, CANTIDAD, ANCHO, LARGO, TIPO) VALUES('".$_POST['factura']."',".$_POST['proveedor'].",'".$_POST['fecha_factura']."',".$_POST['articulo'].",".$_POST['costo'].",0,".$_POST['unidades'].", ".$_POST['ancho'].", ".$_POST['largo'].")";
-			
-			if(ibase_query($conection2->getConexion(), $query1))
-			{
+			$query = "select FACTURA_COMPRA, MS_PROVEEDOR_ID, FECHA_FACTURA, MS_ARTICULO_ID, sum(PRECIO_COMPRA) as PRECIO_COMPRA, ANCHO, LARGO, COUNT(*) AS CANTIDAD FROM MS_INVENTARIO WHERE TIPO='B' GROUP BY FACTURA_COMPRA, MS_PROVEEDOR_ID, FECHA_FACTURA, MS_ARTICULO_ID, ANCHO, LARGO";
+			//echo $query."<br>";
+			$result = ibase_query($conection2->getConexion(), $query) or die(ibase_errmsg());
+			$json = array();
+			while ($row = ibase_fetch_object ($result, IBASE_TEXT)){
 				
+				$campos = array("FACTURA", "MS_PROVEEDOR_ID", "FECHA_FACTURA", "MS_ARTICULO_ID", "MONTO", "PAGADO", "CANTIDAD", "ANCHO", "LARGO");
+				
+				$valores = array("'".$row->FACTURA_COMPRA."'", $row->MS_PROVEEDOR_ID, "'".$row->FECHA_FACTURA."'", $row->MS_ARTICULO_ID, $row->PRECIO_COMPRA, 0 , $row->CANTIDAD, $row->ANCHO, $row->LARGO);
+				//print_r($valores);
+				$conection2->insert_table($campos, "MS_PAGOS", $valores);
+				
+				/*echo $query1 = "INSERT INTO MS_PAGOS(FACTURA, MS_PROVEEDOR_ID, FECHA_FACTURA, MS_ARTICULO_ID, MONTO, PAGADO, CANTIDAD, ANCHO, LARGO, TIPO) VALUES('".$_POST['factura']."',".$_POST['proveedor'].",'".$_POST['fecha_factura']."',".$_POST['articulo'].",".$_POST['costo'].",0,".$_POST['unidades'].", ".$_POST['ancho'].", ".$_POST['largo'].")";
+				
+				$insert_pago = ibase_query($conection2->getConexion(), $query1) or die(ibase_errmsg());*/
 				$query2 = "select
 				max(ID_PAGO) AS ID_PAGO
 				FROM MS_PAGOS";
+
+				//echo $query2."<br>";
 				$result2 = ibase_query($conection2->getConexion(), $query2) or die(ibase_errmsg());
-	       	
+			
 				$row2 = ibase_fetch_object ($result2, IBASE_TEXT);
 				$query2 = "UPDATE MS_INVENTARIO SET MS_PAGOS_ID=".$row2->ID_PAGO." where TIPO='B'";
-			
+				//echo $query2."<br>";
 				ibase_query($conection2->getConexion(), $query2);
+				
 			}
+			$campos = array("CERRADA", "TIPO");
+			$valores = array(1, "'C'");
+			$id = " CERRADA=0";
+			
+			$json = $conection2->update_table($campos, "MS_INVENTARIO", $valores, $id);
+			
+			$obj = (object) $json;
+			echo json_encode($obj);
+			$conection2 = null;
+		}catch(Exception $e) {
+			echo 'Excepción capturada: ',  $e->getMessage(), "\n";
 		}
-		$campos = array("CERRADA", "TIPO");
-		$valores = array(1, "'C'");
-		$id = " CERRADA=0";
-		
-		$json = $conection2->update_table($campos, "MS_INVENTARIO", $valores, $id);
-		
-        $obj = (object) $json;
-        echo json_encode($obj);
-        $conection2 = null;
 	}
 
 	if($_POST['accion'] == "ver_inventario")
