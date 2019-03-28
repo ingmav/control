@@ -8,7 +8,7 @@ require_once '../../PHPExcel/PHPExcel.php';
 date_default_timezone_set('America/Mexico_City');
 
 
-$arreglo1 = ver_sugeridos();
+$arreglo1 = ver_detalles();
 
 
 // Se crea el objeto PHPExcel
@@ -222,7 +222,7 @@ $j = 1;
 
 $objPHPExcel->setActiveSheetIndex(0);
 ///////////////////////////////////////////////////////////////////////////////////////////
-header('Content-type: application/vnd.ms-excel');
+/*header('Content-type: application/vnd.ms-excel');
 header('Content-Disposition: attachment; filename="ReporteSugeridos.xlsx"');
 
 
@@ -230,7 +230,7 @@ $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
 ob_end_clean();
 ob_start();
 $objWriter->save('php://output');
-exit;
+exit;*/
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 ?>
@@ -238,7 +238,7 @@ exit;
 
 
 
-function ver_sugeridos()
+function ver_detalles()
 {
     $conection2 = new conexion_nexos(2);
     
@@ -269,6 +269,7 @@ LEFT JOIN MS_INVENTARIO MI ON  MA.ID = MI.MS_ARTICULO_ID AND MI.ESTATUS_INVENTAR
 MS_FAMILIA MF
 
 WHERE MA.ESTATUS=0
+AND MI.CANTIDAD_RESTANTE >0
 AND MA.MS_FAMILIA_ID=MF.ID
 ".$consulta_filtro."
 GROUP BY MF.DESCRIPCION, MA.NOMBRE_ARTICULO, MA.CANTIDAD_MINIMA, MA.UNITARIO, MA.ANCHO, MA.LARGO, MA.unidad_venta,  MA.unidad_compra,  MA.PAQUETE, MA.ID, MA.ACTUALIZACION

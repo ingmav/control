@@ -7,8 +7,15 @@ require_once '../../PHPExcel/PHPExcel.php';
 
 date_default_timezone_set('America/Mexico_City');
 
+$inicio = $_GET['fecha_factura_inicio'];
+$fin = $_GET['fecha_factura_fin'];
 
-$arreglo1 = ver_pagos_proveedor();
+if($inicio=="" || $fin == "")
+{
+    echo "DEBE DE INTRODUCIR FECHA DE INICIO Y FIN, POR FAVOR";
+    exit;
+}
+$arreglo1 = ver_pagos_proveedor($inicio, $fin);
 
 // Se crea el objeto PHPExcel
 $objPHPExcel = new PHPExcel();
@@ -23,25 +30,27 @@ $objPHPExcel->getProperties()->setCreator("MicrosipWeb") //Autor
     ->setCategory("Reporte MicrosipWeb");
 
 $tituloReporte = "Reporte Pagos a Proveedores";
-$titulosColumnas = array("FACTURA", "FECHA COMPRA", "FECHA PAGO", "PROVEEDOR", "ARTICULOS", "MONTO", "DESCUENTO", "MONTO TOTAL");
+$titulosColumnas = array("FACTURA", "FECHA COMPRA", "FECHA PAGO", "PROVEEDOR", "ARTICULOS", "MONTO", "DESCUENTO", "MONTO TOTAL", "PAGADO");
 
 
 $objPHPExcel->setActiveSheetIndex(0)
-   ->mergeCells('A1:H1');
+   ->mergeCells('A1:I1');
 
 // Se agregan los titulos del reporte
 $objPHPExcel->setActiveSheetIndex(0)
     ->setCellValue('A1',$tituloReporte)
-    ->setCellValue('A3',  $titulosColumnas[0])
-    ->setCellValue('B3',  $titulosColumnas[1])
-    ->setCellValue('C3',  $titulosColumnas[2])
-    ->setCellValue('D3',  $titulosColumnas[3])
-    ->setCellValue('E3',  $titulosColumnas[4])
-    ->setCellValue('F3',  $titulosColumnas[5])
-    ->setCellValue('G3',  $titulosColumnas[6])
-    ->setCellValue('H3',  $titulosColumnas[7]);
+    ->setCellValue('A2',"PERIODO:".$inicio." A ".$fin)
+    ->setCellValue('A4',  $titulosColumnas[0])
+    ->setCellValue('B4',  $titulosColumnas[1])
+    ->setCellValue('C4',  $titulosColumnas[2])
+    ->setCellValue('D4',  $titulosColumnas[3])
+    ->setCellValue('E4',  $titulosColumnas[4])
+    ->setCellValue('F4',  $titulosColumnas[5])
+    ->setCellValue('G4',  $titulosColumnas[6])
+    ->setCellValue('H4',  $titulosColumnas[7])
+    ->setCellValue('I4',  $titulosColumnas[8]);
 
-$i = 4;
+$i = 5;
 $index = 0;
 
 //print_r($arreglo1);
@@ -59,8 +68,9 @@ foreach($arreglo1 as $key => $value)
             ->setCellValue('D'.$i,  $value2['PROVEEDOR'])
             ->setCellValue('E'.$i,  $value2['ARTICULOS'])
             ->setCellValue('F'.$i,  $value2['PRECIO_TOTAL'])
-	    ->setCellValue('G'.$i,  $value2['DESCUENTO'])
-        ->setCellValue('H'.$i,  $value2['PRECIO']);
+            ->setCellValue('G'.$i,  $value2['DESCUENTO'])
+            ->setCellValue('H'.$i,  $value2['PRECIO'])
+            ->setCellValue('I'.$i,  ($value2['PAGADO'] == 1? 'PAGADO':'NO PAGADO'));
 
             $objPHPExcel->getActiveSheet()->getStyle('F'.$i)->getNumberFormat()->setFormatCode("#,##0.00");
 		$objPHPExcel->getActiveSheet()->getStyle('G'.$i)->getNumberFormat()->setFormatCode("#,##0.00");
@@ -156,8 +166,8 @@ $estiloInformacion->applyFromArray(
         )
     ));
 
-$objPHPExcel->getActiveSheet()->getStyle('A1:H1')->applyFromArray($estiloTituloReporte);
-$objPHPExcel->getActiveSheet()->getStyle('A3:H3')->applyFromArray($estiloTituloColumnas);
+$objPHPExcel->getActiveSheet()->getStyle('A1:I1')->applyFromArray($estiloTituloReporte);
+$objPHPExcel->getActiveSheet()->getStyle('A4:I4')->applyFromArray($estiloTituloColumnas);
 
    $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('A')->setWidth(15);
    $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('B')->setWidth(15);
@@ -167,6 +177,7 @@ $objPHPExcel->getActiveSheet()->getStyle('A3:H3')->applyFromArray($estiloTituloC
 $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('F')->setWidth(12);
 $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('G')->setWidth(12);    
 $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('H')->setWidth(12);	
+$objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('I')->setWidth(15);	
 
 
 
@@ -194,20 +205,20 @@ exit;
 
 
 
-function ver_pagos_proveedor()
+function ver_pagos_proveedor($inicio, $fin)
 {
     $conexion = new conexion_nexos(2);
 
-   $query = "select mp.factura, mpr.nombre, mp.fecha_factura ,  (sum(mp.monto) - sum(mp.descuento)) as monto, sum(mp.descuento) as descuento, sum(mp.monto) as monto_total, mpr.condicion_pago, mp.ms_proveedor_id,mp.descripcion  
+   $query = "select mp.factura, mpr.nombre, mp.fecha_factura ,  (sum(mp.monto) - sum(mp.descuento)) as monto, sum(mp.descuento) as descuento, sum(mp.monto) as monto_total, mpr.condicion_pago, mp.ms_proveedor_id,mp.descripcion, mp.pagado  
                     from ms_pagos mp,
                     ms_proveedor mpr
                     where 
+                    mpr.id!='49' and
                     mp.ms_proveedor_id=mpr.id
-                    and mp.pagado=0
-
-                    group by mp.factura, mpr.nombre, mp.fecha_factura, mpr.condicion_pago, mp.ms_proveedor_id, mp.descripcion
+                    and mp.fecha_factura between '$inicio' and '$fin'
+                    group by mp.factura, mpr.nombre, mp.fecha_factura, mpr.condicion_pago, mp.ms_proveedor_id, mp.descripcion, mp.pagado  
         order by mp.ms_proveedor_id, MP.fecha_factura asc";
-
+    //and mp.pagado=0
     $result = ibase_query($conexion->getConexion(), $query) or die(ibase_errmsg());
 
     $arreglo1 = array();
@@ -226,6 +237,7 @@ function ver_pagos_proveedor()
 	    $arreglo1[$index]['PRECIO_TOTAL'] = $row->MONTO_TOTAL;
         $arreglo1[$index]['CONDICION'] = $row->CONDICION_PAGO;
         $arreglo1[$index]['ID_PROVEEDOR'] = $row->MS_PROVEEDOR_ID;
+        $arreglo1[$index]['PAGADO'] = $row->PAGADO;
 	    
 
         $date1=date_create($arreglo1[$index]['FECHA'] );

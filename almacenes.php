@@ -13,7 +13,7 @@ include("funciones/phpfunctions.php");
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Microsip Web 2.0</title>
+    <title>Produccion</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -23,7 +23,6 @@ include("funciones/phpfunctions.php");
 
     <!-- Custom CSS -->
     <link href="css/sb-admin-2.css" rel="stylesheet">
-
 
     <!-- Custom Fonts -->
     <link href="font-awesome-4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
@@ -112,7 +111,8 @@ include("funciones/phpfunctions.php");
                                     <ul class="dropdown-menu">
                                       <li><a href="reportes/inventario_admin/proveedor.php" target="_blank">COMPRAS</a></li>
                                       <li><a href="reportes/inventario_admin/sugeridos.php" target="_blank">INVENTARIO</a></li>
-                                      <!--<li><a href="#">UTILIDAD</a></li>--> 
+                                      <!--<li><a href="reportes/inventario_admin/inventario_detalles.php" target="_blank">INVENTARIO DETALLE</a></li>-->
+                                      
                                     </ul>
                                   </div>
 
@@ -483,7 +483,7 @@ include("funciones/phpfunctions.php");
                                     <div class="row">
                                         
                                         <div class="col-sm-12">
-                                                <button type="button" class="btn btn-primary form-control" onclick="btn_guardar_inventario();"><i class="fa fa-plus"></i> AGREGAR INSUMO</button>
+                                                <button type="button" class="btn btn-primary form-control" onclick="btn_guardar_inventario();"><i class="fa fa-plus"></i> AGREGAR FACTURA</button>
                                         </div>
                                     </div>    
                                    <hr>

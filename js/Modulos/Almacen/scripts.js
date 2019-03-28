@@ -18,7 +18,7 @@
 
 	function datagrid(response)
 	{
-
+		console.log(response);
 		var contador = 0;
 		var datagrid = $("#almacen");
 
@@ -29,12 +29,13 @@
 		var subtotal = 0;
 		var total_herramieintas = 0;
 		var total_insumos = 0;
-
+//console.log(response['ARTICULOS']);
 		$.each(response['ARTICULOS'], function(index, value)
 		{
-            var campos = "";
-            if(value['SUGERIDA'] > 0)
-            	linea = $("<tr style='background-color: rgba(200,0,0,0.1);'>");
+			var campos = "";
+			
+            if((parseFloat(value['CANTIDAD_MINIMA']) - parseFloat(value['INVENTARIO']))  >= 0)
+            	linea = $("<tr style='color: rgba(200,0,0,0.9);'>");
             else
             	linea = $("<tr>");
            	
@@ -103,8 +104,13 @@
 			}	
            	campos += "<td>"+datos+"</td>";
            	campos += "<td>"+datos_subtotal+"</td>";
-            campos += "<td>"+value['ACTUALIZACION']+"</td>";
-            campos += "<td><button type='button' class='btn btn-success' onclick=\"baja_manual("+value['ARTICULO_ID']+", '"+value['ARTICULO']+"')\"><i class='fa fa-caret-square-o-down'></i></button></td>";
+			campos += "<td>"+value['ACTUALIZACION']+"</td>";
+			
+			if((parseFloat(value['CANTIDAD_MINIMA']) - parseFloat(value['INVENTARIO'])  >= 0 && parseFloat(value['INVENTARIO']) > 0))
+				campos += "<td></td>";
+            else
+				campos += "<td><button type='button' class='btn btn-success' onclick=\"baja_manual("+value['ARTICULO_ID']+", '"+value['ARTICULO']+"')\"><i class='fa fa-caret-square-o-down'></i></button></td>";
+            
 
             linea.append(campos);
             datagrid.append(linea);

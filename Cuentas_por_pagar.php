@@ -105,8 +105,9 @@ include("funciones/phpfunctions.php");
                                    
                                 </div>
                                 <div class="btn-group pull-right">
-                                    <button type="button" class="btn btn-default" onclick="window.open('reportes/inventario_admin/pago_proveedor.php', '_blank')"><i class="fa fa-print"></i> Reporte</button>    
-                                    <button type="button" class="btn btn-warning" onclick="window.open('reportes/inventario/backup_cuentasxpagar.php', '_blank')"><i class="fa fa-download"></i></button>    
+                                    <button type="button" class="btn btn-default"onclick='$("#modal_reporte").modal("show")'><i class="fa fa-print"></i> Reporte</button>
+                                    <!--<button type="button" class="btn btn-default" onclick="window.open('reportes/inventario_admin/pago_proveedor.php', '_blank')"><i class="fa fa-print"></i> Reporte</button>-->
+                                    <!--<button type="button" class="btn btn-warning" onclick="window.open('reportes/inventario/backup_cuentasxpagar.php', '_blank')"><i class="fa fa-download"></i></button>    -->
                                 </div>
                                 
                             </div>
@@ -322,6 +323,58 @@ include("funciones/phpfunctions.php");
         <!-- /.modal-dialog -->
     </div>
     <!-- /#wrapper -->
+
+    <div class="modal fade" id="modal_reporte" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+       <div class="modal-dialog modal-dialog">
+            <div class="modal-content modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="myModalLabel">REPORTE DE COMPRAS</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                           PERIODO DE FECHA
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                <form id="FORM_REPORTE">
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label for="email">PROVEEDOR</label>
+                                                <input type="date" name="fecha_factura_inicio" class="form-control">
+                                              </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label for="email">FECHA FACTURA</label>
+                                                
+                                                <input type="date" name="fecha_factura_fin" class="form-control">
+                                              </div>
+                                        </div>
+                                    </div>
+
+                                    
+                                </form>
+                            </div>
+                            <!-- /.table-responsive -->
+                                    
+                            
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" onclick='crear_reporte()'>CREAR REPORTE</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">CERRAR</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
 
     <div class="modal fade" id="modal_proveedor" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
        <div class="modal-dialog modal-dialog">

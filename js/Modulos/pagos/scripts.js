@@ -8,9 +8,16 @@
         RestFullRequest("_Rest/Pagos.php", variable, "datagrid");
     }
 
+    function crear_reporte()
+    {
+        //console.log($("#FORM_REPORTE").serialize());
+        window.open('reportes/inventario_admin/pago_proveedor.php?'+$("#FORM_REPORTE").serialize(), '_blank');
+    }
+
     function formatea_formularios()
     {
         $("#FORM_INSUMO").find("select").val(1).find("input").val("");
+        
     }
 
     function datagrid(response)
