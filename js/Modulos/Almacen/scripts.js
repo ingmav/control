@@ -106,7 +106,7 @@
            	campos += "<td>"+datos_subtotal+"</td>";
 			campos += "<td>"+value['ACTUALIZACION']+"</td>";
 			
-			if((parseFloat(value['CANTIDAD_MINIMA']) - parseFloat(value['INVENTARIO'])  >= 0 && parseFloat(value['INVENTARIO']) > 0))
+			if((parseFloat(value['CANTIDAD_MINIMA']) - parseFloat(value['INVENTARIO'])  >= 0 && parseFloat(value['INVENTARIO']) <= 0))
 				campos += "<td></td>";
             else
 				campos += "<td><button type='button' class='btn btn-success' onclick=\"baja_manual("+value['ARTICULO_ID']+", '"+value['ARTICULO']+"')\"><i class='fa fa-caret-square-o-down'></i></button></td>";
