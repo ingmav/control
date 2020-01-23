@@ -22,9 +22,11 @@
 				texto_descripcion = "";
 
 				notas = value['DESCRIPCION'];
+				
 				if(notas!="")
 				{
-					campos += "<br>"+notas;
+					//console.log("maro");
+					campos += "<br><span style='background-color:#cfcfcf'>"+notas+"</span>";
 				}
 				//texto_descripcion = value['DESCRIPCION'];
 
