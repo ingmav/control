@@ -50,8 +50,8 @@
 			$_SESSION['ACTIVAMODULOS'] = 1;
 
 		}
-
-		$obj = (object) $json3;
+		//print_r($json);
+		$obj = (object) $json;
 		echo json_encode($obj);
 	}
 

@@ -9,7 +9,7 @@
 			var contador = 0;
 			$.each(response, function(index, value)
 			{
-				
+				console.log(response);
 				var campos = "";
 				var index = 0;
 				var id = value['ID_DET'];
@@ -21,7 +21,12 @@
 
 				texto_descripcion = "";
 
-				texto_descripcion = value['DESCRIPCION'];
+				notas = value['DESCRIPCION'];
+				if(notas!="")
+				{
+					campos += "<br>"+notas;
+				}
+				//texto_descripcion = value['DESCRIPCION'];
 
 				$.each(value['MATERIALES'], function(index2, value2)
 		        {

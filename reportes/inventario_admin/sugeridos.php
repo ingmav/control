@@ -24,7 +24,7 @@ $objPHPExcel->getProperties()->setCreator("MicrosipWeb") //Autor
     ->setCategory("Reporte MicrosipWeb");
 
 $tituloReporte = "Reporte Compras a Proveedores";
-$titulosColumnas = array("FAMILIA", "ARTICULO", "INVENTARIO ACTUAL", "P. UNITARIO", "$ INVENTARIO", "SUGERIDO", "$ INVERSIÓN");
+$titulosColumnas = array("FAMILIA", "ARTICULO", "INVENTARIO ACTUAL", "UNIDAD", "P. UNITARIO", "$ INVENTARIO", "SUGERIDO", "UNIDAD", "$ INVERSIÓN");
 
 
 $objPHPExcel->setActiveSheetIndex(0)
@@ -39,7 +39,9 @@ $objPHPExcel->setActiveSheetIndex(0)
     ->setCellValue('D3',  $titulosColumnas[3])
     ->setCellValue('E3',  $titulosColumnas[4])
     ->setCellValue('F3',  $titulosColumnas[5])
-    ->setCellValue('G3',  $titulosColumnas[5]);
+    ->setCellValue('G3',  $titulosColumnas[6])
+    ->setCellValue('H3',  $titulosColumnas[7])
+    ->setCellValue('I3',  $titulosColumnas[8]);
 
 $i = 4;
 $index = 0;
@@ -58,7 +60,7 @@ foreach($arreglo1 as $key => $value)
             if($value[$key2]['SUGERIDO'] > $value[$key2]['INVENTARIO'])
             {
                 $sugerido   = (($value[$key2]['SUGERIDO'] - $value[$key2]['INVENTARIO']) / $value[$key2]['PAQUETE']);
-                $precio     = round(($sugerido * $value[$key2]['PRECIO_UNITARIO']),2);
+                $precio     = round(($sugerido * $value[$key2]['MONTO_UNITARIO']),2);
             }
             else
             {
@@ -76,7 +78,7 @@ foreach($arreglo1 as $key => $value)
             if($value[$key2]['SUGERIDO'] > $value[$key2]['INVENTARIO'])
             {
                 $sugerido   = (($value[$key2]['SUGERIDO'] - $value[$key2]['INVENTARIO']) / ($value[$key2]['LARGO'] * $value[$key2]['ANCHO']));
-                $precio     = round(($sugerido * $value[$key2]['PRECIO_UNITARIO']),2);
+                $precio     = round(($sugerido * $value[$key2]['MONTO_UNITARIO']),2);
             }
             else
             {
@@ -88,16 +90,18 @@ foreach($arreglo1 as $key => $value)
         $objPHPExcel->setActiveSheetIndex(0)
             ->setCellValue('A'.$i,  $value[$key2]['FAMILIA'])
             ->setCellValue('B'.$i,  $value[$key2]['ARTICULO'])
-            ->setCellValue('C'.$i,  $inventario." ".$value[$key2]['UNIDAD_COMPRA'])
-            ->setCellValue('D'.$i,  $value[$key2]['PRECIO_UNITARIO'])
-            ->setCellValue('E'.$i,  $value[$key2]['MONTO_METRAJE'])
-            ->setCellValue('F'.$i,  $sugerido." ".$value[$key2]['UNIDAD_COMPRA'])
+            ->setCellValue('C'.$i,  $inventario)
+            ->setCellValue('D'.$i,  $value[$key2]['UNIDAD_COMPRA'])
+            ->setCellValue('E'.$i,  $value[$key2]['MONTO_UNITARIO'])
+            ->setCellValue('F'.$i, ($inventario * $value[$key2]['MONTO_UNITARIO']))
+            ->setCellValue('G'.$i,  $sugerido)
+            ->setCellValue('H'.$i,  $value[$key2]['UNIDAD_COMPRA'])
             
-            ->setCellValue('G'.$i,  $precio);
+            ->setCellValue('I'.$i,  $precio);
 
-            $objPHPExcel->getActiveSheet()->getStyle('D'.$i)->getNumberFormat()->setFormatCode("#,##0.00");
             $objPHPExcel->getActiveSheet()->getStyle('E'.$i)->getNumberFormat()->setFormatCode("#,##0.00");
             $objPHPExcel->getActiveSheet()->getStyle('G'.$i)->getNumberFormat()->setFormatCode("#,##0.00");
+            $objPHPExcel->getActiveSheet()->getStyle('I'.$i)->getNumberFormat()->setFormatCode("#,##0.00");
         $i++;
     }          
     
@@ -190,8 +194,8 @@ $estiloInformacion->applyFromArray(
         )
     ));
 
-$objPHPExcel->getActiveSheet()->getStyle('A1:G1')->applyFromArray($estiloTituloReporte);
-$objPHPExcel->getActiveSheet()->getStyle('A3:G3')->applyFromArray($estiloTituloColumnas);
+$objPHPExcel->getActiveSheet()->getStyle('A1:I1')->applyFromArray($estiloTituloReporte);
+$objPHPExcel->getActiveSheet()->getStyle('A3:I3')->applyFromArray($estiloTituloColumnas);
 //$objPHPExcel->getActiveSheet()->setSharedStyle($estiloInformacion, "A4:J4".($i-1));
 
 /*for($i = 'A'; $i <= 'E'; $i++){
@@ -206,6 +210,8 @@ $objPHPExcel->getActiveSheet()->getStyle('A3:G3')->applyFromArray($estiloTituloC
     $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('E')->setWidth(15);
     $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('F')->setWidth(15);
     $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('G')->setWidth(15);
+    $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('H')->setWidth(15);
+    $objPHPExcel->setActiveSheetIndex(0)->getColumnDimension('I')->setWidth(15);
 
 
 
@@ -242,7 +248,7 @@ function ver_sugeridos()
 {
     $conection2 = new conexion_nexos(2);
     
-    echo $query = "select
+    $query = "select
 MA.ID,
 MF.DESCRIPCION AS FAMILIA,
 MA.NOMBRE_ARTICULO,
@@ -270,6 +276,8 @@ MS_FAMILIA MF
 
 WHERE MA.ESTATUS=0
 AND MA.MS_FAMILIA_ID=MF.ID
+AND MF.ID NOT IN (16, 7, 15)
+AND MA.EXPORTABLE = 0
 ".$consulta_filtro."
 GROUP BY MF.DESCRIPCION, MA.NOMBRE_ARTICULO, MA.CANTIDAD_MINIMA, MA.UNITARIO, MA.ANCHO, MA.LARGO, MA.unidad_venta,  MA.unidad_compra,  MA.PAQUETE, MA.ID, MA.ACTUALIZACION
 ORDER BY MF.DESCRIPCION, MA.NOMBRE_ARTICULO";
