@@ -21,9 +21,10 @@
 
 				texto_descripcion = "";
 
-				notas = value['DESCRIPCION'];
+				//notas = value['DESCRIPCION'];
+				notas = value['NOTAS_PROCESO'];
 				
-				if(notas!="")
+				if(notas!="" && notas !=undefined)
 				{
 					//console.log("maro");
 					campos += "<br><span style='background-color:#cfcfcf'>"+notas+"</span>";
