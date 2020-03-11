@@ -177,18 +177,13 @@
 	}
 
 	function cerrar_factura() {
-		if($("#lista_factura tr").length > 0)
-		{
-			$("#FORM_ALMACEN #doble_factura").hide();
-			var variable = "accion=cerrar_factura";
-			RestFullRequest("_Rest/Almacen.php", variable, "actualiza_tabla_inventario",1);
-			actualiza_lista_factura();
-			$("#FORM_ALMACEN").find("input").val("");
-			$("#FORM_ALMACEN").find("select").val(1);
-			$("#modal_inventario").modal("hide");
-		}else{
-			alert("Debe de ingresar al menos un insumo");
-		}
+		$("#FORM_ALMACEN #doble_factura").hide();
+		var variable = "accion=cerrar_factura";
+        RestFullRequest("_Rest/Almacen.php", variable, "actualiza_tabla_inventario",1);
+        actualiza_lista_factura();
+        $("#FORM_ALMACEN").find("input").val("");
+        $("#FORM_ALMACEN").find("select").val(1);
+        
 	}
 
 	function actualiza_tabla_inventario(Response)
@@ -559,7 +554,7 @@
 		var total = 0;
 		$.each(Response, function(index, value)
 		{
-			//console.log(value);
+			console.log(value);
 			var obj = JSON.stringify({ id: value['ID'], articulo_id: value['MS_ARTICULO_ID'], largo: value['LARGO'], ancho: value['ANCHO'], unitario: value['UNITARIO'] });
 			var dimension = "";
 			if(value['ANCHO'] >0 && value['LARGO']>0)
@@ -581,20 +576,15 @@
 
 	function btn_guardar_inventario()
 	{
-		if($("#factura").val() != "" && $("#fecha_factura").val()!="" && $("#costo").val()!="" )
-		{
-			var variable = "accion=guardar&"+$("#FORM_ALMACEN").serialize();
-			RestFullRequest("_Rest/Almacen.php", variable, "actualiza_lista_factura",1);
-		}else
-			alert("debe de rellenar los campos, por favor verifique");
+		
+		var variable = "accion=guardar&"+$("#FORM_ALMACEN").serialize();
+        RestFullRequest("_Rest/Almacen.php", variable, "actualiza_lista_factura",1);
 	}
 
 	function guardar()
 	{
-		
-			var variable = "accion=guardar&"+$("#FORM_ALMACEN").serialize();
-			RestFullRequest("_Rest/Almacen.php", variable, "resetForm");
-		
+		var variable = "accion=guardar&"+$("#FORM_ALMACEN").serialize();
+        RestFullRequest("_Rest/Almacen.php", variable, "resetForm");
 	}
 
 

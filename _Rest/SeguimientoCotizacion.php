@@ -13,7 +13,7 @@
 	if($_POST["accion"] == "index")
 	{
 
-		$candado = " AND DOCTOS_VE.FECHA>='2016-01-01'";
+		$candado = " AND DOCTOS_VE.FECHA>='2019-01-01'";
 		
 		$campos = array( "DOCTOS_VE.DOCTO_VE_ID",
                          "DOCTOS_VE.ESTATUS",
