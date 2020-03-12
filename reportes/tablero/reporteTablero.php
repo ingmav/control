@@ -55,7 +55,7 @@ $query =    "select
                     DOCTOS_VE.TIPO_DOCTO,
                     DOCTOS_VE.ESTATUS,
                     DOCTOS_VE.IMPORTE_NETO,
-                    TABLEROPRODUCCION.F_ENTREGA
+                    TABLEROPRODUCCION.FECHA_ENTREGA
                     FROM 
                     TABLEROPRODUCCION,
                     CLIENTES,
@@ -93,7 +93,7 @@ $query =    "select
             $json[$indice]['GF_MAQUILAS']           = $row->GF_MAQUILAS;
             $json[$indice]['ESTATUS_MAQUILAS']      = $row->ESTATUS_MAQUILAS;
             $json[$indice]['IMPORTE_NETO']          = $row->IMPORTE_NETO;
-            $json[$indice]['F_ENTREGA']             = $row->F_ENTREGA;
+            $json[$indice]['FECHA_ENTREGA']             = $row->FECHA_ENTREGA;
         } 
 
         $contador = count($json);
@@ -456,7 +456,7 @@ if($_POST['cliente'] != "")
 $html .= "TABLERO DE PROCESOS  $textoFolio  $textoCliente  ".utf8_decode($textoPendiete)."  ".date("Y/m/d");
 $html .="<table>";
 $contador = 0;
-$html .="<tr style='background: #CFCFCF'><td width='80px'>FOLIO</td><td width='70px'>Fecha Finalizado</td><td width='70px'>FACTURADO</td><td width='140px'>FECHA ENTREGA</td><td width='70px'>DIAS DE PROCESO</td><td width='200px'>Cliente</td><td width='700px'>Descripcion</td><td width='10px'>Di</td><td width='10px'>Im</td><td width='10px'>Pr</td><td width='10px'>In</td><td width='10px'>En</td><td width='10px'>Ma</td><td width='10px'>IMPORTE</td></tr>";
+$html .="<tr style='background: #CFCFCF'><td width='80px'>FOLIO</td><td width='70px'>Fecha Finalizado</td><td width='70px'>FACTURADO</td><td width='70px'>FECHA ENTREGA</td><td width='70px'>HORA ENTREGA</td><td width='70px'>DIAS DE PROCESO</td><td width='200px'>Cliente</td><td width='700px'>Descripcion</td><td width='10px'>Di</td><td width='10px'>Im</td><td width='10px'>Pr</td><td width='10px'>In</td><td width='10px'>En</td><td width='10px'>Ma</td><td width='10px'>IMPORTE</td></tr>";
 
 
 $contador = count($json5);
@@ -585,7 +585,8 @@ foreach($json as $key => $value)
     $html .= "<td>".$value['EMPRESA'].$value["TIPO_DOCTO"]."-".(int)substr($value["FOLIO"],1)."</td>";
     $html .= "<td>".substr($value["FECHA_TERMINO"],0,10)."</td>";
     $html .= "<td>".substr($value["FECHA"],0,10)."</td>";
-    $html .= "<td>".$value["F_ENTREGA"]."</td>";
+    $html .= "<td>".substr($value["FECHA_ENTREGA"],0,10)."</td>";
+    $html .= "<td>".substr($value["FECHA_ENTREGA"],10,5)."</td>";
     $html .= "<td>".$dias_proceso."</td>";
     //$html .= "<td>".substr($value["FECHA"],0,10)."</td>";
     $html .= "<td>".$value["NOMBRE"]."</td>";

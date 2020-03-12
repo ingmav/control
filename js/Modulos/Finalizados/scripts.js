@@ -11,6 +11,8 @@
         var estatus_tablero = 0;
         var obj_tablero;
 
+        var listaCompleta;
+
 
 		
 		$( "#search" ).keypress(function(e) {
@@ -49,12 +51,13 @@
             var pestana = 0;
             obj_tablero = response;
 
+            listaCompleta = response;
             $.each(response, function(index, value)
             {
                 var id = value['ID'];
                 var linea = $("<tr data-fila='"+id+"' id='"+id+"'></tr>");
                 var campos = "";
-                campos += "<td>"+value['EMPRESA']+value['TIPO_DOCTO']+"-"+parseInt(value['FOLIO'])+"<br><button type='button' class='btn btn-strech btn-danger' onclick='desbloquear("+id+",2)'><i class='fa fa-close'></i></button><button type='button' class='btn btn-strech btn-info' onclick='verInformacion("+value['DOCTO_VE_ID']+",2,"+index+")'><i class='fa fa-info'></i></button></td>";
+                campos += "<td>"+value['EMPRESA']+value['TIPO_DOCTO']+"-"+parseInt(value['FOLIO'])+"<br><button type='button' class='btn btn-strech btn-danger' onclick='desbloquear("+id+",2)'><i class='fa fa-close'></i></button><button type='button' class='btn btn-strech btn-info' onclick='verInformacion("+value['DOCTO_VE_ID']+",2,"+index+")'><i class='fa fa-info'></i></button><button type='button' class='btn btn-strech btn-primary' onclick='cambiar_fecha_hora("+index+")'><i class='fa fa-clock-o'></i></button></td>";
                 campos += "<td>"+value['FECHA']+"<BR><span class='label label-danger'>"+value['FECHA_ENTREGA_TRABAJO']+"</span></td>";
                 campos += "<td>"+value['NOMBRE']+"<br>"+value['DESCRIPCION']+"</td>";
                 
@@ -177,127 +180,36 @@
                 }
                 
             });
-            /*if(response['monto_total'] > 0)
-                $("#Desglose_Monto").text("$ "+moneda(response['monto_total'], 2, [',', "'", '.']));
             
-            vlength = response['pagesnum'];
-			$.each(response, function(index, value)
-			{
-                if(pestana<20)
-                {
-
-                    if(index != "pagesnum" && index!= "monto_total")
-                    {
-
-                        var campos = "";
-                        var id = value['TABLEROPRODUCCION.ID'];
-                        var idEmpresa = value['IDEMPRESA'];
-
-                        var color;
-                        if(value['RESTANTE_ENTREGA'] == 0 || value['RESTANTE_ENTREGA'] < 0)
-                            color = "danger'";
-                        if(value['RESTANTE_ENTREGA'] == 1)
-                            color = "warning";
-                        if(value['RESTANTE_ENTREGA'] > 1)
-                            color = "success'";
-
-
-                        linea = $("<tr data-fila='"+id+"' id='"+id+"'></tr>");
-                        colorEstatus = "success";
-
-                        costo = moneda(value['DOCTOS_VE.IMPORTE_NETO'], 2, [',', "'", '.']);
-                        var dato_monto = "";
-                        
-                        if(costo > 0)
-                            dato_monto = "<b>Monto: $"+costo+"</b>";    
-                        campos += "<td>"+value['NOMBREEMPRESA']+"-"+value['DOCTOS_VE.TIPO_DOCTO']+"-"+parseInt(value['DOCTOS_VE.FOLIO'])+"-<span class='"+colorEstatus+"'>"+value['DOCTOS_VE.ESTATUS']+"</span><br><button type='button' class='btn btn-strech btn-primary' onclick=\"verInformacion("+id+","+idEmpresa+", '"+value['NOMBREEMPRESA']+"-"+value['DOCTOS_VE.TIPO_DOCTO']+"-"+parseInt(value['DOCTOS_VE.FOLIO'])+"-"+value['DOCTOS_VE.ESTATUS']+"', '"+value['TABLEROPRODUCCION.FECHA']+"','"+value['CLIENTES.NOMBRE']+"', '"+value['DOCTOS_VE.DESCRIPCION']+"')\"><i class='fa fa-info'></i></buttton>"+" "+"<button type='button' class='btn btn-strech btn-danger' onclick='desbloquear("+id+","+idEmpresa+")'><i class='fa fa-close'></i></buttton></td>";
-                        campos += "<td>  "+value['TABLEROPRODUCCION.FECHA']+"<BR><label class='label label-"+color+"'> "+value['TABLEROPRODUCCION.FECHA_ENTREGA']+"</label><br><br>"+dato_monto+"</td>";
-                        //campos += "<td>"+value['CLIENTES.NOMBRE']+"</td>";
-
-                        var notas = "";
-                        if(value['TABLEROPRODUCCION.NOTA'] !="")
-                            notas = "<br>-"+value['TABLEROPRODUCCION.NOTA'];
-
-                        campos += "<td>"+value['CLIENTES.NOMBRE']+"<br>"+value['DOCTOS_VE.DESCRIPCION']+notas+"</td>";
-
-                        indice = 0;
-
-                        var estatusdiseno = "danger";
-                        var estatusimpresion = "danger";
-                        var estatusinstalacion = "danger";
-                        var estatusentrega = "danger";
-                        var estatusprogramacion = "danger";
-                        var estatusmaquilas = "danger";
-                        var estatuspreparacion = "danger";
-                        var numeroProcesos  = value['produccion'];
-
-
-                        $.each(value['produccion'], function(index2, value2)
-                        {
-                            switch(value2['PRODUCCION.IDDEPARTAMENTO'])
-                            {
-                                case '2': if(value2['PRODUCCION.IDESTATUS']==2){ estatusdiseno = "success"; numeroProcesos--;}else{ estatusdiseno = "danger"; } break;
-                                case '3': if(value2['PRODUCCION.IDESTATUS']==2){ estatusimpresion = "success"; numeroProcesos--; }else{ estatusimpresion = "danger"; } break;
-                                case '4': if(value2['PRODUCCION.IDESTATUS']==2){ estatusinstalacion = "success"; numeroProcesos--; }else{ estatusinstalacion = "danger"; } break;
-                                case '6': if(value2['PRODUCCION.IDESTATUS']==2){ estatusentrega = "success"; numeroProcesos--; }else{ estatusentrega = "danger"; } break;
-                                case '7': if(value2['PRODUCCION.IDESTATUS']==2){ estatusprogramacion = "success"; numeroProcesos--; }else{ estatusprogramacion = "danger"; } break;
-                                case '8': if(value2['PRODUCCION.IDESTATUS']==2){ estatusmaquilas = "success"; numeroProcesos--; }else{ estatusmaquilas = "danger"; } break;
-                                case '9': if(value2['PRODUCCION.IDESTATUS']==2){ estatuspreparacion = "success"; numeroProcesos--; }else{ estatuspreparacion = "danger"; } break;
-                            }
-                            indice++;
-                        });
-
-                        if(value['TABLEROPRODUCCION.DISENO'] == 1)
-                            campos += "<td style='max-width: 27px'><button type='button'  class='btn btn-"+estatusdiseno+" btn-strech'><span class='fa fa-check '></span></button></td>";
-                        else
-                            campos += "<td></td>";
-
-                        if(value['TABLEROPRODUCCION.IMPRESION'] == 1)
-                            campos += "<td style='max-width: 27px'><button type='button'  class='btn btn-"+estatusimpresion+" btn-strech' id><span class='fa fa-check '></span></button></td>";
-                        else
-                            campos += "<td></td>";
-
-                        if(value['TABLEROPRODUCCION.MAQUILAS'] == 1)
-                            campos += "<td style='max-width: 27px'><button type='button'  class='btn btn-"+estatusmaquilas+" btn-strech'><span class='fa fa-check '></span></button></td>";
-                        else
-                            campos += "<td></td>";
-
-                        if(value['TABLEROPRODUCCION.PREPARACION'] == 1)
-                            campos += "<td style='max-width: 27px'><button type='button'  class='btn btn-"+estatuspreparacion+" btn-strech' ><span class='fa fa-check '></span></button></td>";
-                        else
-                            campos += "<td></td>";
-
-                        if(value['TABLEROPRODUCCION.INSTALACION'] == 1)
-                            campos += "<td style='max-width: 27px'><button type='button'  class='btn btn-"+estatusinstalacion+" btn-strech' ><span class='fa fa-check '></span></button></td>";
-                        else
-                            campos += "<td></td>";
-                        if(value['TABLEROPRODUCCION.ENTREGA'] == 1)
-                            campos += "<td style='max-width: 27px'><button type='button'  class='btn btn-"+estatusentrega+" btn-strech' ><span class='fa fa-check'></span></button></td>";
-                            //campos += "<td><span class='fa fa-check'></span></td>";
-                        else
-                            campos += "<td></td>";
-
-                        if(value['TERMINADO'] == 1)
-                            campos+= "<td style='max-width: 27px'><input type='checkbox' name='id_finalizar[]' value='"+idEmpresa+"_"+id+"'> </td>";
-                        else
-                            campos+= "<td></td>";
-
-
-                        linea.append(campos);
-
-                        datagrid.append(linea);
-                        contador++;
-                        pestana++;
-                        }
-                    }
-				});
-
-            creaPaginador(vlength);
-				if(contador == 0)
-					datagrid.append("<tr><td colspan='11'>NO SE ENCUENTRAN REGISTROS</td></tr>");*/
 			
-		}
-		
+        }
+        
+        function cambiar_fecha_hora(obj)
+        {
+            //console.log(listaCompleta[obj].FECHA_ENTREGA_TRABAJO.substr(0, 10));
+            //console.log(listaCompleta[obj].FOLIO);
+            $("#folio_fecha").text(listaCompleta[obj].TIPO_DOCTO+listaCompleta[obj].FOLIO);
+            $("#cliente_fecha").text(listaCompleta[obj].NOMBRE);
+            var fecha = listaCompleta[obj].FECHA_ENTREGA_TRABAJO.substr(0, 10);
+            console.log(fecha.substr(7,4));
+            //fecha = fecha.substr(7,4) +"-"+ fecha.substr(3,2)+"-"+fecha.substr(0,2);
+            //console.log(fecha);
+            $("#fecha_hora").val(listaCompleta[obj].FECHA_ENTREGA_TRABAJO.substr(0, 10));
+            $("#hora").val(listaCompleta[obj].FECHA_ENTREGA_TRABAJO.substr(11, 5));
+            $("#datos_fecha").text(listaCompleta[obj].DESCRIPCION);
+            $("#id_fecha").val(listaCompleta[obj].ID);
+            $("#cambio_fecha").modal("show");
+        }
+        
+        function guardar_cambio()
+        {
+            //console.log($("#cambio_fecha").serialize());
+            
+            var variable = "accion=guardarFecha&empresa=2&id="+$("#id_fecha").val()+"&fecha="+$("#fecha_hora").val()+"&hora="+$("#hora").val();
+            RestFullRequest("_Rest/Finalizados.php", variable, "actualizaDatagrid", 2);
+            $("#cambio_fecha").modal("hide");
+        }
+
 		function verInformacion(id, emp, index)
 		{
             //, folio, fecha, cliente, descripcion

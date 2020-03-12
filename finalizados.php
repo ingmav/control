@@ -320,6 +320,54 @@ include("funciones/phpfunctions.php");
         </div>
     </div>
 
+    <div class="modal fade" id="cambio_fecha"  tabindex="-1" role="dialog" aria-labelledby="modalCatalogoLabel" aria-hidden="true" data-backdrop="static">
+         <div class="modal-dialog modal-dialog">
+             <div class="modal-content modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="myModalLabel">Cambiar Fecha de Entrega</h4>
+                </div>
+
+                <div class="modal-body">
+                   <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Fecha de Entrega
+                        </div>
+
+                        <div class="panel-body">
+                            <form id="cambio_fecha">
+                                <input id="id_fecha" type="hidden">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        Folio:  <span id="folio_fecha"></span>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        Cliente:  <span id="cliente_fecha"></span>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        Datos:  <span id="datos_fecha"></span>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        Fecha Entrega:  <input type="date" class="form-control input" id="fecha_hora" value="2020-01-01">
+                                        
+                                    </div>
+                                    <div class="col-sm-12">
+                                        Hora Entrega:  
+                                        <input type="time" class="form-control input" id="hora">
+                                    </div>
+                                </div>
+                           </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" onclick="guardar_cambio()">Guardar</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     
     <!-- /#wrapper -->
 

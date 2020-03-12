@@ -6,7 +6,23 @@
 	//$conection = new conexion_nexos();
 	//$conexion = $conection->conexion_nexos($_POST['empresa']);
 	
-	if($_POST["accion"] == "index")
+	if($_POST["accion"] == "guardarFecha")
+	{
+
+        $conection = new conexion_nexos(2);
+        
+        $campos = array("FECHA_ENTREGA");
+		$valores = array("'".$_POST['fecha']." ".$_POST['hora'].":00'");
+		$id = " ID = ".$_POST['id'];
+		
+		$json = $conection->update_table($campos, "TABLEROPRODUCCION", $valores, $id);
+
+        $obj = (object) $json;
+        echo json_encode($obj);
+        $conection = null;
+        
+    }
+    if($_POST["accion"] == "index")
 	{
 
         $conection = new conexion_nexos(2);
