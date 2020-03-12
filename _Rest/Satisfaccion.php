@@ -74,11 +74,7 @@
 		$campo = "TABLEROPRODUCCION.DOCTO_VE_ID";
 		$join = array();
 		
-<<<<<<< HEAD
-		$condicionales = " AND TABLEROPRODUCCION.FINALIZAR_PROCESO=1 and TABLEROPRODUCCION.fecha>='2020.01.02'";
-=======
 		$condicionales = " AND TABLEROPRODUCCION.FINALIZAR_PROCESO=1 and TABLEROPRODUCCION.fecha>='2020.03.01'";
->>>>>>> d5a3ffffc38338a686b8b0aa7cf64cc9fdbbb0fc
 
 
 		$conection2 = new conexion_nexos($Empresa);
@@ -109,11 +105,7 @@
 
 		$order = array("DOCTOS_VE.FECHA DESC, DOCTOS_VE.FOLIO DESC");
 		
-<<<<<<< HEAD
-		$condicionales .=" AND  DOCTOS_VE.FECHA>='02.01.2020' ";
-=======
 		$condicionales .=" AND  DOCTOS_VE.FECHA>='01.03.2020' ";
->>>>>>> d5a3ffffc38338a686b8b0aa7cf64cc9fdbbb0fc
 
 	
 		//$json = $conection2->select_table($campos, "DOCTOS_VE", $join2, $condicionales, $order, 0, null);
