@@ -74,7 +74,11 @@
 		$campo = "TABLEROPRODUCCION.DOCTO_VE_ID";
 		$join = array();
 		
+<<<<<<< HEAD
 		$condicionales = " AND TABLEROPRODUCCION.FINALIZAR_PROCESO=1 and TABLEROPRODUCCION.fecha>='2020.01.02'";
+=======
+		$condicionales = " AND TABLEROPRODUCCION.FINALIZAR_PROCESO=1 and TABLEROPRODUCCION.fecha>='2020.03.01'";
+>>>>>>> d5a3ffffc38338a686b8b0aa7cf64cc9fdbbb0fc
 
 
 		$conection2 = new conexion_nexos($Empresa);
@@ -105,7 +109,11 @@
 
 		$order = array("DOCTOS_VE.FECHA DESC, DOCTOS_VE.FOLIO DESC");
 		
+<<<<<<< HEAD
 		$condicionales .=" AND  DOCTOS_VE.FECHA>='02.01.2020' ";
+=======
+		$condicionales .=" AND  DOCTOS_VE.FECHA>='01.03.2020' ";
+>>>>>>> d5a3ffffc38338a686b8b0aa7cf64cc9fdbbb0fc
 
 	
 		//$json = $conection2->select_table($campos, "DOCTOS_VE", $join2, $condicionales, $order, 0, null);
@@ -145,7 +153,7 @@
 		
 		$join = array("DOCUMENTOSFINALIZADOS","=", "DOCUMENTOSFINALIZADOS.IDTABLEROPRODUCCION", "TABLEROPRODUCCION.ID");
 		
-		$condicionales = " AND DOCUMENTOSFINALIZADOS.idtipofinalizacion=2 and TABLEROPRODUCCION.fecha>='2018.03.01'";
+		$condicionales = " AND DOCUMENTOSFINALIZADOS.idtipofinalizacion=2 and TABLEROPRODUCCION.fecha>='2020.03.01'";
 
 
 		$json_distinct = $conection->select_distinct_table($campo, "TABLEROPRODUCCION", $join, $condicionales, 0);
@@ -168,7 +176,7 @@
 			$condicionales2.= " AND CLIENTES.NOMBRE like '%".strtoupper($_POST['client'])."%'";
 		}
 		
-		$condicionales2 .="  and DOCTOS_VE.FECHA>='01.06.2016' ";
+		$condicionales2 .="  and DOCTOS_VE.FECHA>='01.03.2020' ";
 		$conection2 = new conexion_nexos(1);
 		$json2 = $conection2->counter("DOCTOS_VE", $join2, $condicionales2, 0);
 
