@@ -42,17 +42,17 @@
 
 
 				var campos = "";
-				var id = value['DOCTOS_VE.DOCTO_VE_ID'];
+				var id = value['DOCTO_VE_ID'];
 				linea = $("<tr data-fila='"+id+"' id='"+id+"'></tr>");
 				colorEstatus = "success";
 				
-				campos += "<td>"+value['NOMBREEMPRESA']+value['DOCTOS_VE.TIPO_DOCTO']+"-"+parseInt(value['DOCTOS_VE.FOLIO'].substr(1))+"-"+value['DOCTOS_VE.TIPO_DOCTO']+"</td>";
-				campos += "<td>"+value['DOCTOS_VE.FECHA']+"<br>"+value['TABLEROPRODUCCION.FECHA_TERMINO']+"</td>";
+				campos += "<td>"+value['NOMBREEMPRESA']+value['TIPO_DOCTO']+"-"+parseInt(value['FOLIO'].substr(1))+"-"+value['TIPO_DOCTO']+"</td>";
+				campos += "<td>"+value['FECHA']+"<br>"+value['FECHA_TERMINO']+"</td>";
 				//campos += "<td>"+value['MAX']+"</td>";
-				campos += "<td><b style='color:blue'><div class='cliente'>"+value['CLIENTES.NOMBRE']+"</div></b><div class='descripcion'>"+value['DOCTOS_VE.DESCRIPCION']+"</div></td>";
+				campos += "<td><b style='color:blue'><div class='cliente'>"+value['NOMBRE']+"</div></b><div class='descripcion'>"+value['DESCRIPCION']+"</div></td>";
 				
 				//campos += "<td>"+value['DOCTOS_VE.DESCRIPCION']+"</td>";
-				var total = (parseFloat(value['DOCTOS_VE.IMPORTE_NETO']) + parseFloat(value['DOCTOS_VE.TOTAL_IMPUESTOS']));
+				var total = (parseFloat(value['IMPORTE_NETO']) + parseFloat(value['TOTAL_IMPUESTOS']));
 				// + 
 				campos += "<td>$ "+currency(total, 2, [',','.'])+"</td>";
 				//campos += "<td>"+value['procesosRealizados']+" / "+value['procesos']+"</td>";
@@ -61,10 +61,10 @@
 					/*if(value['DOCTOS_VE.TIPO_DOCTO']=="R" && value['DOCTOS_VE_LIGAS.DOCTO_VE_DEST_ID']=="")
 						campos += "<td><button type='button' class='btn btn-danger' onclick=\"pagado(this, "+value['EMPRESA']+", "+value['CLIENTES.CLIENTE_ID']+", '"+value['DOCTOS_VE.CLAVE_CLIENTE']+"')\">NO FACTURADO </button></td>";
 					else*/
-						campos += "<td><button type='button' class='btn btn-success' onclick=\"pagado(this, "+value['EMPRESA']+", "+value['CLIENTES.CLIENTE_ID']+", '"+value['DOCTOS_VE.CLAVE_CLIENTE']+"')\">ENVIAR CORREO</button></td>";
+						campos += "<td><button type='button' class='btn btn-success' onclick=\"pagado(this, "+value['EMPRESA']+", "+value['CLIENTE_ID']+", '"+value['CLAVE_CLIENTE']+"')\">ENVIAR CORREO</button></td>";
 				}
 				else
-					campos += "<td><button type='button' class='btn btn-success' onclick=\"pagado(this, "+value['EMPRESA']+", "+value['CLIENTES.CLIENTE_ID']+", '"+value['DOCTOS_VE.CLAVE_CLIENTE']+"')\">REENVIAR CORREO</button></td>";
+					campos += "<td><button type='button' class='btn btn-success' onclick=\"pagado(this, "+value['EMPRESA']+", "+value['CLIENTE_ID']+", '"+value['CLAVE_CLIENTE']+"')\">REENVIAR CORREO</button></td>";
 				
 				linea.append(campos);
 

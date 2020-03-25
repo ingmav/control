@@ -88,28 +88,65 @@
 		if(count($json_distinct) == 0)
 			$indice = "1";
 		if($_POST['pagados'] == 1)
-			$condicionales = " AND DOCTOS_VE.DOCTO_VE_ID IN (".$indice.implode(",", $json_distinct).") AND DOCTOS_VE.DOCTO_VE_ID NOT IN (SELECT DOCTO_VE_ID FROM DOCUMENTOSPAGADOS)";
+			$condicionales = " AND dv.DOCTO_VE_ID IN (".$indice.implode(",", $json_distinct).") AND dv.DOCTO_VE_ID NOT IN (SELECT DOCTO_VE_ID FROM DOCUMENTOSPAGADOS)";
 		else
-			$condicionales = " AND DOCTOS_VE.DOCTO_VE_ID IN (".$indice.implode(",", $json_distinct).") AND DOCTOS_VE.DOCTO_VE_ID IN (SELECT DOCTO_VE_ID FROM DOCUMENTOSPAGADOS)";	
+			$condicionales = " AND dv.DOCTO_VE_ID IN (".$indice.implode(",", $json_distinct).") AND dv.DOCTO_VE_ID IN (SELECT DOCTO_VE_ID FROM DOCUMENTOSPAGADOS)";	
 		
 		if(isset($_POST['buscar']))
 		{
 			$buscar = (int)$_POST['buscar'];
-			$condicionales.= " AND DOCTOS_VE.FOLIO like '%".$buscar."%'";
+			$condicionales.= " AND dv.FOLIO like '%".$buscar."%'";
 		}
 
 		if(isset($_POST['client']))
 		{
-			$condicionales.= " AND CLIENTES.NOMBRE like '%".strtoupper($_POST['client'])."%'";
+			$condicionales.= " AND c.NOMBRE like '%".strtoupper($_POST['client'])."%'";
 		}
 
 		$order = array("DOCTOS_VE.FECHA DESC, DOCTOS_VE.FOLIO DESC");
 		
-		$condicionales .=" AND  DOCTOS_VE.FECHA>='01.03.2020' ";
+		$condicionales .=" AND  dv.FECHA>='01.03.2020' ";
 
 	
 		//$json = $conection2->select_table($campos, "DOCTOS_VE", $join2, $condicionales, $order, 0, null);
-		$json = $conection2->select_table_advanced_with_counter($campos, $campos, "DOCTOS_VE", $join2, $condicionales, $order, 0, NULL, $Empresa);
+		$query = "
+		select dv.DOCTO_VE_ID, dv.FOLIO, dv.TIPO_DOCTO, dv.FECHA, c.CLIENTE_ID, c.NOMBRE, dv.TIPO_DOCTO, dv.CLAVE_CLIENTE, dv.DESCRIPCION, dv.IMPORTE_NETO,
+		dv.TOTAL_IMPUESTOS, dv.DSCTO_IMPORTE,
+		(select DOCTO_VE_DEST_ID from DOCTOS_VE_LIGAS where DOCTOS_VE_LIGAS.DOCTO_VE_FTE_ID = dv.DOCTO_VE_ID) as DOCTO_VE_DEST_ID,
+		(select first 1 FECHA_TERMINO from TABLEROPRODUCCION where TABLEROPRODUCCION.DOCTO_VE_ID = dv.DOCTO_VE_ID order by FECHA_TERMINO desc) as FECHA_TERMINO
+		from DOCTOS_VE dv,
+		CLIENTES c
+
+		where
+		dv.CLIENTE_ID = c.CLIENTE_ID
+		".$condicionales."
+		group by dv.DOCTO_VE_ID, dv.FOLIO, dv.TIPO_DOCTO, dv.FECHA, c.CLIENTE_ID, c.NOMBRE, dv.TIPO_DOCTO, dv.CLAVE_CLIENTE, dv.DESCRIPCION, dv.IMPORTE_NETO,
+		dv.TOTAL_IMPUESTOS, dv.DSCTO_IMPORTE order by FECHA_TERMINO";
+		$result = ibase_query($conection2->getConexion(), $query) or die(ibase_errmsg());
+
+		$arreglo = array();
+		while ($row = ibase_fetch_object ($result, IBASE_TEXT)){
+			//$arreglo[] = $row;
+			$indice= count($arreglo);
+			$arreglo[$indice]['NOMBREEMPRESA'] = "NP";
+			$arreglo[$indice]['DOCTO_VE_ID'] = $row->DOCTO_VE_ID;
+			$arreglo[$indice]['FOLIO'] = $row->FOLIO;
+			$arreglo[$indice]['TIPO_DOCTO'] = $row->TIPO_DOCTO;
+			$arreglo[$indice]['FECHA'] = $row->FECHA;
+			$arreglo[$indice]['CLIENTE_ID'] = $row->CLIENTE_ID;
+			$arreglo[$indice]['NOMBRE'] = utf8_encode($row->NOMBRE);
+			$arreglo[$indice]['TIPO_DOCTO'] = $row->TIPO_DOCTO;
+			$arreglo[$indice]['CLAVE_CLIENTE'] = $row->CLAVE_CLIENTE;
+			$arreglo[$indice]['DESCRIPCION'] = utf8_encode($row->DESCRIPCION);
+			$arreglo[$indice]['IMPORTE_NETO'] = $row->IMPORTE_NETO;
+			$arreglo[$indice]['TOTAL_IMPUESTOS'] = $row->TOTAL_IMPUESTOS;
+			$arreglo[$indice]['DSCTO_IMPORTE'] = $row->DSCTO_IMPORTE;
+			$arreglo[$indice]['DOCTO_VE_DEST_ID'] = $row->DOCTO_VE_DEST_ID;
+			$arreglo[$indice]['FECHA_TERMINO'] = $row->FECHA_TERMINO;
+			
+		}
+		
+		//$json = $conection2->select_table_advanced_with_counter($campos, $campos, "DOCTOS_VE", $join2, $condicionales, $order, 0, NULL, $Empresa);
 		$index = 0;
 		/*while($index < count($json))
 		{
@@ -135,7 +172,7 @@
 			$index++;
 		}*/
 
-		return $json;
+		return $arreglo;
 	}
 
 	if($_POST["accion"] == "counter")
