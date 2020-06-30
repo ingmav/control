@@ -227,6 +227,98 @@ AND (ARTICULOS.LINEA_ARTICULO_ID IN (2146,2147,2142, 2149)
 		echo json_encode($obj);
 	}
 
+	if($_POST['accion'] == "delete_multiple_pv")
+	{
+		$conection = new conexion_nexos(2);
+		$contador = count($_POST['arr']);
+		$count = 0;
+		$join = array();
+		//$_POST['arr'];
+
+		while($count < $contador)
+		{
+			$llave = $_POST['arr'][$count];	
+			$join = array();
+
+				
+			if(!isset($_POST['diseno_'.$llave]))
+				$_POST['diseno_'.$llave] = 0;
+			if(!isset($_POST['impresion_'.$llave]))
+				$_POST['impresion_'.$llave] = 0;
+			if(!isset($_POST['preparacion_'.$llave]))
+				$_POST['preparacion_'.$llave] = 0;
+			if(!isset($_POST['entrega_'.$llave]))
+				$_POST['entrega_'.$llave] = 0;
+
+			$id_general = 0;
+
+			$query = "select first 1 doctos_pv_det.DOCTO_PV_DET_ID from doctos_pv, doctos_pv_det where doctos_pv.docto_pv_id=doctos_pv_det.docto_pv_id AND DOCTOS_PV_DET.DOCTO_PV_ID=".$llave;
+			$result = ibase_query($conection->getConexion(), $query) or die(ibase_errmsg());
+			$json = array();
+			while ($row = ibase_fetch_object ($result, IBASE_TEXT)){
+				$id_general 				= $row->DOCTO_PV_DET_ID;
+				$campos = array("DOCTO_PV_ID", "DOCTO_PV_DET_ID", "F_ENTREGA", "NOTAS_PROCESO", "DESCRIPCION", "IDUSUARIO",
+							"GF_DISENO", "GF_IMPRESION", "GF_PREPARACION", "GF_ENTREGA", "CERRAR_SELECCION", "FINALIZAR_PROCESO");
+				$valores = array($llave, $id_general, "'".date("Y-m-d H:i:s")."'", "'".$_POST['notas_'.$llave]."'", "'".$_POST['notas_'.$llave]."'",$_SESSION['IDUSUARIO'], $_POST['diseno_'.$llave], $_POST['impresion_'.$llave], $_POST['preparacion_'.$llave], $_POST['entrega_'.$llave], 1, 1);
+					
+				$json = $conection->insert_table($campos, "produccion_dg", $valores);
+			}		
+			$count++;
+		}
+		$conection = null;
+		
+		$obj = (object) $json;
+		echo json_encode($obj);
+	}
+
+
+	if($_POST['accion'] == "delete_multiple_pv_gf")
+	{
+		$conection = new conexion_nexos(2);
+		$contador = count($_POST['arr']);
+		$count = 0;
+		$join = array();
+		//$_POST['arr'];
+
+		while($count < $contador)
+		{
+			$llave = $_POST['arr'][$count];	
+			$join = array();
+
+				
+			if(!isset($_POST['diseno_'.$llave]))
+					$_POST['diseno_'.$llave] = 0;
+				if(!isset($_POST['impresion_'.$llave]))
+					$_POST['impresion_'.$llave] = 0;
+				if(!isset($_POST['preparacion_'.$llave]))
+					$_POST['preparacion_'.$llave] = 0;
+				if(!isset($_POST['entrega_'.$llave]))
+					$_POST['entrega_'.$llave] = 0;
+				if(!isset($_POST['instalacion_'.$llave]))
+					$_POST['instalacion_'.$llave] = 0;
+
+				
+
+			$id_general = 0;
+
+			$query = "select first 1 doctos_pv_det.DOCTO_PV_DET_ID from doctos_pv, doctos_pv_det where doctos_pv.docto_pv_id=doctos_pv_det.docto_pv_id AND DOCTOS_PV_DET.DOCTO_PV_ID=".$llave;
+			$result = ibase_query($conection->getConexion(), $query) or die(ibase_errmsg());
+			$json = array();
+			while ($row = ibase_fetch_object ($result, IBASE_TEXT)){
+				$id_general 				= $row->DOCTO_PV_DET_ID;
+				$campos = array("DOCTO_PV_ID", "DOCTO_PV_DET_ID", "F_ENTREGA", "NOTAS_PROCESO", "DESCRIPCION", "IDUSUARIO",
+								"GF_DISENO", "GF_IMPRESION", "GF_PREPARACION", "GF_ENTREGA", "GF_INSTALACION", "CERRAR_SELECCION", "FINALIZAR_PROCESO");
+				$valores = array($llave, $id_general, "'".date("Y-m-d H:i:s")."'", "'".$_POST['notas_'.$llave]."'", "'".$_POST['notas_'.$llave]."'",$_SESSION['IDUSUARIO'], $_POST['diseno_'.$llave], $_POST['impresion_'.$llave], $_POST['preparacion_'.$llave], $_POST['entrega_'.$llave], $_POST['instalacion_'.$llave], 1, 1);
+					
+				$json = $conection->insert_table($campos, "PRODUCCIONPV", $valores);
+			}		
+			$count++;
+		}
+		$conection = null;
+		
+		$obj = (object) $json;
+		echo json_encode($obj);
+	}
 	
 	$conexion = null;
 ?>

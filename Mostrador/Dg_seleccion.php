@@ -109,7 +109,7 @@ include("../funciones/phpfunctions.php");
                         <div class="panel panel-default">
                             <div class="panel-heading">
                                 Documentos
-                                
+                                <div style='float: right;'><button class="btn btn-primary" onclick='eliminacion()'><i class='fa fa-trash'></i> Eliminar</button></div>
                             </div>
                             <!-- /.panel-heading -->
                             <div class="panel-body">
@@ -124,6 +124,7 @@ include("../funciones/phpfunctions.php");
                                                 </ul>
                                             
                                             </div>
+                                            
                                         </div>    
                                         
                         			</div>
@@ -135,6 +136,9 @@ include("../funciones/phpfunctions.php");
                                             <th style="width: 384px;">CLIENTE / DESCRIPCION</th>
                                             <th style="width: 50px;">
                                             	ACTIVIDADES
+                                            </th>
+                                            <th style="width: 50px; text-align:center">
+                                            <input type='checkbox' onclick="seleccion_multiple()" />
                                             </th>
                                             
                                         </tr>

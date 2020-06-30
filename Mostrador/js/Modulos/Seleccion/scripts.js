@@ -1,7 +1,73 @@
 		var empresa = 1;
 		var paginacion = 1;
 		var buscar = "";
+		var seleccionador = false;
 	
+		function seleccion_multiple()
+		{
+			var digital = $("#digital").hasClass("active");
+			var gf = $("#gran_formato").hasClass("active");
+
+			seleccionador = !seleccionador;
+			if(digital == true)
+			{
+				if(seleccionador == true)
+				{
+					$(".combos_seleccion").prop('checked', true);
+				}else{
+					$(".combos_seleccion").prop('checked', false);
+				}
+			}else if(gf == true)
+			{
+				if(seleccionador == true)
+				{
+					$(".combos_seleccion_gf").prop('checked', true);
+				}else{
+					$(".combos_seleccion_gf").prop('checked', false);
+				}
+			}
+		}
+
+		function eliminacion()
+		{
+			var digital = $("#digital").hasClass("active");
+			var gf = $("#gran_formato").hasClass("active");
+			if(confirm("¿Realmente esta seguro de eliminar este registro?"))
+			{
+				if(digital == true)
+				{
+					var variable = "accion=delete_multiple_pv&empresa="+empresa+"&cerrar=1";
+					
+					$.each($(".combos_seleccion"), function(index, value)
+					{
+						if($(this).is(':checked'))
+						{
+							var valor = $(value).val();
+							//console.log(valor);
+							variable = variable +"&arr[]="+valor;
+						}
+					});
+					//console.log(variable);
+					RestFullRequest("_Rest/SDLista_productos.php", variable, "digital");
+				}else if(gf == true)
+				{
+					var variable = "accion=delete_multiple_pv_gf&empresa="+empresa+"&cerrar=1";
+					
+					$.each($(".combos_seleccion_gf"), function(index, value)
+					{
+						if($(this).is(':checked'))
+						{
+							var valor = $(value).val();
+							//console.log(valor);
+							variable = variable +"&arr[]="+valor;
+						}
+					});
+					//console.log(variable);
+					RestFullRequest("_Rest/SDLista_productos.php", variable, "gran_formato");
+				}
+			}
+		}
+
 		function datagridSeleccionpv(response)
 		{
 			var datagrid = $("#data");
@@ -32,6 +98,7 @@
 				linea = $("<tr data-fila='"+id+"' id='"+id+"'></tr>");
 
 				campos += "<td><button type='button' class='btn btn-circle  btn-success' onclick='procesosPV(this)'><i class='fa fa-cogs'></i></button></td>";
+				campos += "<td style='text-align:center'><input type='checkbox' class='combos_seleccion' name='mostrador["+id+"]' value='"+id+"'></td>";
 
 				linea.append(campos);
 				
@@ -72,6 +139,7 @@
 				linea = $("<tr data-fila='"+id+"' id='"+id+"'></tr>");
 
 				campos += "<td><button type='button' class='btn btn-circle  btn-success' onclick='procesosgf(this)'><i class='fa fa-cogs'></i></button></td>";
+				campos += "<td style='text-align:center'><input type='checkbox' class='combos_seleccion_gf' name='mostrador_gf["+id+"]' value='"+id+"'></td>";
 
 				linea.append(campos);
 				

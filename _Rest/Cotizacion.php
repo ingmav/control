@@ -174,7 +174,7 @@ session_start();
 
 function enviar_correo($cuerpo, $asesor, $cliente)
 {
-    date_default_timezone_set('America/Mexico_City'); //Se define la zona horaria
+    /*date_default_timezone_set('America/Mexico_City'); //Se define la zona horaria
     require_once('../PHPMailer/class.phpmailer.php'); //Incluimos la clase phpmailer
 
     $mail = new PHPMailer(true); // Declaramos un nuevo correo, el parametro true significa que mostrara excepciones y errores.
@@ -185,10 +185,82 @@ function enviar_correo($cuerpo, $asesor, $cliente)
     //echo $cliente;
     try {
         //------------------------------------------------------
-        $correo_emisor="cotizaciones@nexosempresariales.com.mx";     //Correo a utilizar para autenticarse
+        $correo_emisor="webmarketing@nexosempresariales.com.mx";     //Correo a utilizar para autenticarse
         //con Gmail o en caso de GoogleApps utilizar con @tudominio.com
         $nombre_emisor= utf8_decode("Cotización");               //Nombre de quien envía el correo
-        $contrasena= "+is6)ab]~4dc";          //contraseña de tu cuenta en Gmail
+        $contrasena= "FW.HWS9w$[e6";          //contraseña de tu cuenta en Gmail
+
+        //--------------------------------------------------------
+        $mail->SMTPDebug  = 1;   
+        // 1 = errores y mensajes
+        // 2 = solo mensajes
+        $mail->SMTPAuth   = true;                  // Habilita la autenticación SMTP
+        $mail->SMTPSecure = "ssl";                 // Establece el tipo de seguridad SMTP
+        $mail->Host       = "mail.nexosempresariales.com.mx";      // Establece Gmail como el servidor SMTP
+        $mail->Port       = 587;                   // Establece el puerto del servidor SMTP de Gmail
+        $mail->Username   = $correo_emisor;           // Usuario Gmail
+        $mail->Password   = $contrasena;           // Contraseña Gmail
+        //A que dirección se puede responder el correo
+        //$mail->AddReplyTo("cotizaciones@nexosempresariales.com.mx", $nombre_emisor);
+        //La direccion a donde mandamos el correo
+
+        //$mail->AddAddress($_POST['email'], "CLIENTE");
+        $mail->AddAddress($cliente, "CLIENTE");
+        $mail->AddAddress($asesor[0]['EMAIL'], "ASESOR");
+
+
+        //De parte de quien es el correo
+        //$mail->SetFrom("cotizaciones@nexosempresariales.com.mx", $nombre_emisor);
+        //Asunto del correo
+        $mail->Subject = utf8_decode('Recepcion de cotizacion');
+        //Mensaje alternativo en caso que el destinatario no pueda abrir correos HTML
+        //$mail->AltBody = $mensaje;
+        //El cuerpo del mensaje, puede ser con etiquetas HTML
+        $logo = "<img src='http://nexprint.mx/imagenes/cabecera/logo.png'><br><br>";
+        $cabecera = "Este correo se genera de manera automática, dando inicio al proceso de cotización<br><br>";
+        $pie = "<br>Gracias por su preferencia, conozca más de nosotros en <a href='http://www.nexprint.mx'>www.nexprint.mx</a>";
+        $mensaje = "<html>
+
+						 <div style='font-size:11pt; font-family:TAHOMA'>
+						          $logo
+						          $cabecera
+								  $cuerpo
+								  $pie
+							  </html>";
+        $mail->MsgHTML(utf8_decode($mensaje));
+        //Enviamos el correo
+        $respuesta = array();
+
+        if($mail->Send())
+        {
+            return 1;
+        }else
+        {
+            return 2;
+        }
+
+    } catch (phpmailerException $e) {
+        echo $e->errorMessage(); //Errores de PhpMailer
+        //return 1;
+    } catch (Exception $e) {
+        echo $e->getMessage(); //Errores de cualquier otra cosa.
+        //return 1;
+    }*/
+    /*date_default_timezone_set('America/Mexico_City'); //Se define la zona horaria
+    require_once('../PHPMailer/class.phpmailer.php'); //Incluimos la clase phpmailer
+
+    $mail = new PHPMailer(true); // Declaramos un nuevo correo, el parametro true significa que mostrara excepciones y errores.
+
+    $mail->IsSMTP(); // Se especifica a la clase que se utilizará SMTP
+    //$cuerpo;
+    //echo $asesor[0]['EMAIL'];
+    //echo $cliente;
+    try {
+        //------------------------------------------------------
+        $correo_emisor="notificaiones@nexprint.com.mx";     //Correo a utilizar para autenticarse
+        //con Gmail o en caso de GoogleApps utilizar con @tudominio.com
+        $nombre_emisor= utf8_decode("Cotización");               //Nombre de quien envía el correo
+        $contrasena= "xrFnm9PW?D&k";          //contraseña de tu cuenta en Gmail
 
         //--------------------------------------------------------
         $mail->SMTPDebug  = 1;                     // Habilita información SMTP (opcional para pruebas)
@@ -196,7 +268,7 @@ function enviar_correo($cuerpo, $asesor, $cliente)
         // 2 = solo mensajes
         $mail->SMTPAuth   = true;                  // Habilita la autenticación SMTP
         $mail->SMTPSecure = "ssl";                 // Establece el tipo de seguridad SMTP
-        $mail->Host       = "mail.nexosempresariales.com.mx";      // Establece Gmail como el servidor SMTP
+        $mail->Host       = "mail.nexprint.mx";      // Establece Gmail como el servidor SMTP
         $mail->Port       = 465;                   // Establece el puerto del servidor SMTP de Gmail
         $mail->Username   = $correo_emisor;           // Usuario Gmail
         $mail->Password   = $contrasena;           // Contraseña Gmail
@@ -245,7 +317,47 @@ function enviar_correo($cuerpo, $asesor, $cliente)
     } catch (Exception $e) {
         echo $e->getMessage(); //Errores de cualquier otra cosa.
         //return 1;
-    }
+    }*/
+    require_once('../PHPMailer/class.phpmailer.php'); //Incluimos la clase phpmailer
+    try {
+        $mail = new PHPMailer();
 
+        //Luego tenemos que iniciar la validación por SMTP:
+        $mail->IsSMTP();
+        $mail->SMTPDebug  = 1;   
+        $mail->SMTPSecure = "tsl";
+        $mail->SMTPAuth = true;
+        $mail->Host = "mail.nexosempresariales.com.mx"; // SMTP a utilizar. Por ej. smtp.elserver.com
+        $mail->Username = "notificaiones@nexprint.mx"; // Correo completo a utilizar
+        $mail->Password = "xrFnm9PW?D&k"; // Contraseña
+        $mail->Port = 465; // Puerto a utilizar
+
+        //Con estas pocas líneas iniciamos una conexión con el SMTP. Lo que ahora deberíamos hacer, es configurar el mensaje a enviar, el //From, etc.
+        $mail->From = "info@elserver.com"; // Desde donde enviamos (Para mostrar)
+        $mail->FromName = "Nombre";
+
+        //Estas dos líneas, cumplirían la función de encabezado (En mail() usado de esta forma: “From: Nombre <correo@dominio.com>”) de //correo.
+        $mail->AddAddress("ing.mario.villatoro@gmail.com"); // Esta es la dirección a donde enviamos
+        $mail->IsHTML(true); // El correo se envía como HTML
+        $mail->Subject = "Titulo"; // Este es el titulo del email.
+        $body = "Hola mundo. Esta es la primer línea<br />";
+        $body .= "Acá continuo el <strong>mensaje</strong>";
+        $mail->Body = $body; // Mensaje a enviar
+        $exito = $mail->Send(); // Envía el correo.
+
+        //También podríamos agregar simples verificaciones para saber si se envió:
+        if($exito){
+        echo "El correo fue enviado correctamente.";
+        }else{
+       
+        echo "Hubo un inconveniente. Contacta a un administrador.";
+        }
+    }catch (phpmailerException $e) {
+        echo $e->errorMessage(); //Errores de PhpMailer
+        //return 1;
+    } catch (Exception $e) {
+        echo $e->getMessage(); //Errores de cualquier otra cosa.
+        //return 1;
+    }   
 }
 ?>
