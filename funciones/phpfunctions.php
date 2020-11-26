@@ -142,6 +142,7 @@ session_start();
         $cuentas_x_pagar = "";
         $proveedores = "";
         $insumos = "";
+        $importacion = "";
 
 
         switch($id)
@@ -235,6 +236,8 @@ session_start();
                 $proveedores = " class='active'"; break;  
             case 43:
                 $insumos = " class='active'"; break;                
+            case 44:
+                $importacion = " class='active'"; break;                
                 
         }
 
@@ -389,10 +392,21 @@ session_start();
 
     <?php
         }
+        ?>
+        <li style="background-color: rgba(3,22,91,0.4); color:white" id="importar">
+                <a href="#"><i class="fa fa-black-tie"></i> COTIZACIÓN<span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level collapse" style="height: 0px;">
+                    <li>
+                        <a href="/produccion/importacion.php"  <?php echo $almacenes; ?> <?php echo $importacion; ?>><i class="fa fa-download"></i> Importar</a>
+                    </li>
+                    
+                </ul>
+           </li>
+        <?php
     }
 
     ?>
-
+    
 
 <!--  Modal para Mensajes-->
 <div class="modal fade" id="MensajePlataforma" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;z-index: 10000;">

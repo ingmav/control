@@ -721,7 +721,7 @@ function ver_pagos($empresa, $fecha_limte)
         $arreglo1[] = $row->DOCTO_VE_ID;
     }
 
-
+    
     //$query2 = "select DOCTOS_VE.DOCTO_VE_ID  from TABLEROPRODUCCION, DOCTOS_VE WHERE TABLEROPRODUCCION.docto_ve_id=DOCTOS_VE.docto_ve_id AND DOCTOS_VE.TIPO_DOCTO='R' AND DOCTOS_VE.estatus!='C' AND TABLEROPRODUCCION.ID NOT IN (SELECT IDTABLEROPRODUCCION FROM DOCUMENTOSFINALIZADOS)  ";
     $query2 = "select DOCTOS_VE.DOCTO_VE_ID  from TABLEROPRODUCCION, DOCTOS_VE WHERE TABLEROPRODUCCION.docto_ve_id=DOCTOS_VE.docto_ve_id AND DOCTOS_VE.TIPO_DOCTO='R' AND DOCTOS_VE.estatus!='C' AND TABLEROPRODUCCION.FINALIZAR_PROCESO=0  ";
 
@@ -732,6 +732,7 @@ function ver_pagos($empresa, $fecha_limte)
     while ($row2 = ibase_fetch_object ($result2, IBASE_TEXT)){
         $arreglo2[] = $row2->DOCTO_VE_ID;
     }
+    
 
     if(count($arreglo2) > 0)
     {
@@ -751,6 +752,8 @@ function ver_pagos($empresa, $fecha_limte)
         $arreglo1 = array_merge($arreglo1, $arreglo3);
     }
 
+    
+
     if(count($arreglo1) > 0)
     {
         $query4 = "select DOCTO_DEST_ID from DOCTOS_ENTRE_SIS WHERE CLAVE_SIS_DEST='CC' AND CLAVE_SIS_FTE='VE' AND DOCTO_FTE_ID IN (".implode(",", $arreglo1).")";
@@ -763,6 +766,8 @@ function ver_pagos($empresa, $fecha_limte)
             $arreglo4[] = $row4->DOCTO_DEST_ID;
         }
     }
+
+    
     $filtro_interior = "";
     $filtro_interior .= " and d1.folio like '%".$_GET['folio']."%' and c.nombre like '%".$_GET['cliente']."%'";
 
@@ -773,12 +778,12 @@ function ver_pagos($empresa, $fecha_limte)
     group by doctos_cc.docto_cc_id,doctos_cc.folio, doctos_cc.fecha, clientes.nombre, doctos_cc.descripcion, doctos_cc.folio, vencimientos_cargos_cc.fecha_vencimiento, vencimientos_cargos_cc.pctje_ven
     order by clientes.nombre ";*/
 
-    $query5 = "select
+    /*$query5 = "select
 d1.docto_cc_id, d1.concepto_cc_id, d1.folio, d1.fecha, c.nombre, d1.descripcion,
-(sum( DISTINCT idc1.importe + idc1.impuesto) / ( 100 /  vcc.pctje_ven) ) AS IMPORTE,
+(sum( DISTINCT idc1.importe + idc1.impuesto) / (100 / vcc.pctje_ven)) AS IMPORTE,
 vcc.fecha_vencimiento, vcc.pctje_ven,
 IIF(sum(idc2.importe + idc2.impuesto)>=0, (sum(idc2.importe + idc2.impuesto) / ( 100 /  vcc.pctje_ven)), 0) AS ANTICIPO,
-((sum( DISTINCT idc1.importe + idc1.impuesto) / ( 100 /  vcc.pctje_ven)) - IIF(sum(idc2.importe + idc2.impuesto)>=0, (sum(idc2.importe + idc2.impuesto) / ( 100 /  vcc.pctje_ven) ), 0)) AS TOTAL
+((sum( DISTINCT idc1.importe + idc1.impuesto) / (100 / vcc.pctje_ven)) - IIF(sum(idc2.importe + idc2.impuesto)>=0, (sum(idc2.importe + idc2.impuesto) / ( 100 /  vcc.pctje_ven) ), 0)) AS TOTAL
 from doctos_cc d1, vencimientos_cargos_cc vcc, clientes c, importes_doctos_cc idc1
 left join importes_doctos_cc idc2 on idc1.docto_cc_acr_id = idc2.docto_cc_acr_id and idc2.tipo_impte='R' and idc2.estatus!='P' and idc2.cancelado!='S'
 where
@@ -787,6 +792,7 @@ and d1.docto_cc_id=vcc.docto_cc_id
 and d1.cliente_id = c.cliente_id
 and d1.naturaleza_concepto='C' and d1.cancelado='N'
 ".$filtro_interior."
+and d1.FECHA >='01-01-2019'
 group by d1.docto_cc_id, d1.concepto_cc_id, d1.folio, d1.fecha, c.nombre, d1.descripcion, vcc.fecha_vencimiento, vcc.pctje_ven
 having (((sum( DISTINCT idc1.importe + idc1.impuesto) / (100 / vcc.pctje_ven)) - IIF(sum(idc2.importe + idc2.impuesto)>=0, (sum(idc2.importe + idc2.impuesto) ), 0))) > 0
 order by c.nombre";
@@ -797,7 +803,55 @@ order by c.nombre";
 
     while ($row5 = ibase_fetch_object ($result5, IBASE_TEXT)){
         $arreglo5[] = array("ID"=>$row5->DOCTO_CC_ID, "FOLIO"=>$row5->FOLIO, "CONCEPTO_CC"=>$row5->CONCEPTO_CC_ID,"FECHA"=>$row5->FECHA, "NOMBRE"=>utf8_encode($row5->NOMBRE), "DESCRIPCION"=>utf8_encode($row5->DESCRIPCION), "IMPORTE"=>$row5->IMPORTE, "FECHA_VENCIMIENTO"=>$row5->FECHA_VENCIMIENTO, "NUMERO_COBROS"=>$row5->PCTJE_VEN, "ANTICIPO"=>$row5->ANTICIPO, "TOTAL"=>$row5->TOTAL);
+    }*/
+
+    $query5 = "select
+    d1.docto_cc_id, d1.concepto_cc_id, d1.folio, d1.fecha, c.nombre, d1.descripcion,
+    (sum( DISTINCT idc1.importe + idc1.impuesto) / ( 100 /  vcc.pctje_ven) ) AS IMPORTE,
+    vcc.fecha_vencimiento, vcc.pctje_ven,
+    0 AS ANTICIPO,
+    0 AS TOTAL,
+    idc1.docto_cc_acr_id
+    from doctos_cc d1, vencimientos_cargos_cc vcc, clientes c, importes_doctos_cc idc1
+    where
+    d1.docto_cc_id=idc1.docto_cc_id
+    and d1.docto_cc_id=vcc.docto_cc_id
+    and d1.cliente_id = c.cliente_id
+    and d1.naturaleza_concepto='C' and d1.cancelado='N'
+    and d1.FECHA >='01-01-2019'
+    
+    group by d1.docto_cc_id, d1.concepto_cc_id, d1.folio, d1.fecha, c.nombre, d1.descripcion, vcc.fecha_vencimiento, vcc.pctje_ven,idc1.docto_cc_acr_id
+    order by c.nombre";
+
+    $result5 = ibase_query($conexion->getConexion(), $query5) or die(ibase_errmsg());
+
+    $arreglo5 = array();
+
+    while ($row5 = ibase_fetch_object ($result5, IBASE_TEXT)){
+        $anticipo_2 = 0;
+        $query5_1 = "select
+        (sum(idc2.importe + idc2.impuesto) / ( 100 /  ".$row5->PCTJE_VEN.")) AS ANTICIPO
+        from importes_doctos_cc idc2
+        where
+        idc2.docto_cc_acr_id  = ".$row5->DOCTO_CC_ACR_ID." and idc2.tipo_impte='R' and idc2.estatus!='P' and idc2.cancelado!='S'";
+        
+        $result5_1 = ibase_query($conexion->getConexion(), $query5_1) or die(ibase_errmsg());
+        
+        while ($row5_1 = ibase_fetch_object ($result5_1, IBASE_TEXT)){
+            $anticipo_2 = $row5_1->ANTICIPO;
+        }
+        //echo $row5->IMPORTE."--".$anticipo_2." = ".($row5->IMPORTE - $anticipo_2)."<br>"; 
+        if(($row5->IMPORTE - $anticipo_2) > 0)
+        {
+            $total = $row5->IMPORTE - $anticipo_2;
+            $arreglo5[] = array("ID"=>$row5->DOCTO_CC_ID, "FOLIO"=>$row5->FOLIO, "CONCEPTO_CC"=>$row5->CONCEPTO_CC_ID,"FECHA"=>$row5->FECHA, "NOMBRE"=>utf8_encode($row5->NOMBRE), "DESCRIPCION"=>utf8_encode($row5->DESCRIPCION), "IMPORTE"=>$row5->IMPORTE, "FECHA_VENCIMIENTO"=>$row5->FECHA_VENCIMIENTO, "NUMERO_COBROS"=>$row5->PCTJE_VEN, "ANTICIPO"=>$anticipo_2, "TOTAL" => $total);//, "TOTAL"=>$row5->TOTAL);
+        }
     }
+
+    //print_r($arreglo5);
+    //return array("data" => $arreglo5);
+    //exit;
+    
 
     $query6 = "select importes_doctos_cc.docto_cc_acr_id, doctos_cc.fecha_aplicacion, (importes_doctos_cc.importe + importes_doctos_cc.impuesto) as IMPORTE
     from doctos_cc, importes_doctos_cc
