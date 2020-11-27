@@ -81,16 +81,20 @@ function importacion()
          {
             $("#folio_importado").hide(); 
             alert("error al cargar la cotización, por favor vuelva a intentarlo");
-            $("#btn_importar").html("<i class='fa fa-check'></i> Importando Correctamente");
+            $("#btn_importar").html("Importar Cotización");
+            $("#btn_importar").prop( "disabled", false );
     
          }else if(obj.estatus == 1){
             $("#folio_importado").show(); 
             $("#num_folio").text(obj.folio); 
-            $("#btn_importar").prop( "disabled", false );
+            $("#btn_importar").prop( "disabled", true );
+            $("#btn_importar").html("Importado Correctamente");
          }
          
     }).fail(function() {
         $("#folio_importado").hide(); 
-        alert("error al cargar la cotización, por favor vuelva a intentarlo");
+            alert("error al cargar la cotización, por favor vuelva a intentarlo");
+            $("#btn_importar").html("Importar Cotización");
+            $("#btn_importar").prop( "disabled", false );
     });
 }

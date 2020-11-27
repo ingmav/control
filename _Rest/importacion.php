@@ -79,7 +79,7 @@ if($result_INSERT)
     foreach ($datos as $key => $value) {
         //echo $value['clave_articulo'];
         $nota = "";
-        $cabecara_nota = "";
+        $cabecera_nota = "";
         if(array_key_exists($value['articulo_id'], $articulos))
         {
             $cabecera_nota = ", NOTAS";
@@ -112,10 +112,14 @@ if($result_INSERT)
             ibase_rollback($transaction);	
         }
     }
+    
     if($contador == $numero)
     {
         echo  json_encode(array("estatus"=> 1, "texto"=> "Se Ha cargado Correctamente la Cotizacion", "folio"=> $folio));
         ibase_commit($transaction);
+    }else{
+        echo  json_encode(array("estatus"=> 0, "texto"=> "Error al importar la cotización"));
+        ibase_rollback($transaction);	
     }
 }else{
     echo  json_encode(array("estatus"=> 0, "texto"=> "Error al importar la cotización"));
