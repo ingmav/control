@@ -49,7 +49,7 @@ function verficar()
             var iva         = $("<tr style='font-weight: bold;'><td colspan='4'></td><td>I.V.A.</td><td style='text-align: right;'>"+datos_cliente.iva+"</td></tr>");
             var descuento   = $("<tr style='font-weight: bold;'><td colspan='4'></td><td>DESC. GRAL.</td><td style='text-align: right;'>"+datos_cliente.tipo_descuento_gral_importe+"</td></tr>");
             var total       = $("<tr style='font-weight: bold;'><td colspan='4'></td><td>TOTAL</td><td style='text-align: right; color:red;'>"+datos_cliente.descuento_general_monto+"</td></tr>");
-            var importacion = $("<tr style='font-weight: bold;'><td colspan='4'></td><td colspan='2'><button type='button' class='btn btn-primary' onclick='importacion()'>Importar Cotización</button></td></tr>");
+            var importacion = $("<tr style='font-weight: bold;'><td colspan='4'></td><td colspan='2'><button type='button' class='btn btn-primary' onclick='importacion()' id='btn_importar'>Importar Cotización</button></td></tr>");
             $("#ResumenCotizacion").html("");
             $("#ResumenCotizacion").append(subtotal,descuento, iva, total, importacion);
            
@@ -65,6 +65,8 @@ function verficar()
 
 function importacion()
 {
+    $("#btn_importar").html("<i class='fa fa-refresh fa-spin'></i> Importando");
+    $("#btn_importar").prop( "disabled", true );
     var array_data = {cliente: cliente, datos:datos_cotizacion};
     $.ajax({
         method: "POST",
@@ -79,9 +81,12 @@ function importacion()
          {
             $("#folio_importado").hide(); 
             alert("error al cargar la cotización, por favor vuelva a intentarlo");
+            $("#btn_importar").html("<i class='fa fa-check'></i> Importando Correctamente");
+    
          }else if(obj.estatus == 1){
             $("#folio_importado").show(); 
             $("#num_folio").text(obj.folio); 
+            $("#btn_importar").prop( "disabled", false );
          }
          
     }).fail(function() {

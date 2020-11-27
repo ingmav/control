@@ -24,6 +24,15 @@ while ($row_direccion = ibase_fetch_object ($result_direccion, IBASE_TEXT)){
     $direccion = $row_direccion;
 }
 
+$query_articulos = "select ARTICULO_ID from articulos where unidad_venta in ('M2', 'Lamina', 'ML', 'Metro')";
+$result_articulos = ibase_query($conection->getConexion(), $query_articulos) or die(ibase_errmsg());
+
+$articulos = array();
+while ($row_articulos = ibase_fetch_object ($result_articulos, IBASE_TEXT)){
+    $articulos[$row_articulos->ARTICULO_ID] = 1;
+}
+
+//print_r($articulos);
 $letra_descuento = '';
 $monto_descuento = '';
 $pctje_descuento = 0;
@@ -69,6 +78,13 @@ if($result_INSERT)
     $contador = 0;
     foreach ($datos as $key => $value) {
         //echo $value['clave_articulo'];
+        $nota = "";
+        $cabecara_nota = "";
+        if(array_key_exists($value['articulo_id'], $articulos))
+        {
+            $cabecera_nota = ", NOTAS";
+            $nota = ", '".IntVal($value['cantidad']) ." Unidades (Base: ".$value['base']." X Altura: ".$value['altura'].")'";
+        }
         $importe_neto = $value['total_monto_descuento'] - $value['iva'];
         $query_insert_cotizacion_detalles = "INSERT INTO DOCTOS_VE_DET(
             DOCTO_VE_DET_ID, 
@@ -85,10 +101,9 @@ if($result_INSERT)
             PCTJE_DSCTO_CLI, 
             DSCTO_EXTRA, 
             PCTJE_DSCTO_VOL,
-    PCTJE_DSCTO_PROMO, PRECIO_TOTAL_NETO, PCTJE_COMIS, ROL, NOTAS, POSICION) 
+    PCTJE_DSCTO_PROMO, PRECIO_TOTAL_NETO, PCTJE_COMIS, ROL".$cabecera_nota.", POSICION) 
     values(GEN_ID(ID_DOCTOS,1), ".$id.", '".$value['clave_articulo']."', ".$value['articulo_id'].", ".$value['total'].", 0, 0, 0, ".$value['precio_unitario'].", ".$value['descuento_porcentaje'].", 
-    ".$value['descuento_monto'].", ".$value['descuento_porcentaje']." , ".$value['descuento_general'].", 0, 0, ".$importe_neto.", 0, 'N', 
-    '".IntVal($value['cantidad']) ." Unidades (Base: ".$value['base']." X Altura: ".$value['altura'].")', ".($key+1).")";
+    ".$value['descuento_monto'].", ".$value['descuento_porcentaje']." , ".$value['descuento_general'].", 0, 0, ".$importe_neto.", 0, 'N'".$nota.", ".($key+1).")";
     $insert_articulos = ibase_query($conection->getConexion(), $query_insert_cotizacion_detalles) or die(ibase_errmsg());
         if($insert_articulos)
         {
