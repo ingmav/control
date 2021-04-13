@@ -247,7 +247,7 @@ while($row = ibase_fetch_object ($resultInventariooperaciones, IBASE_TEXT))
 }
 
 
-$conection2 = new conexion_nexos(2);
+$conection2 = new conexion_nexos($_SESSION['empresa']);
 
 $resultInventariooperaciones2 = ibase_query($conection2->getConexion(), $query5) or die(ibase_errmsg());
 $inventariooperaciones2 = array();
@@ -407,7 +407,7 @@ $json = $conection3->select_table($campos, "ARTICULOSWEB", $join, $condicionales
 
 $query1 = "SELECT idsubarticuloweb, sum(cantidad  + merma) as unidades from inventarioimpresion where fecha between '".$json_last_row->FECHA_INICIO."' and '".$json_last_row->FECHA_FIN."'  GROUP BY idsubarticuloweb  order by idsubarticuloweb";
 
-$conection2 = new conexion_nexos(2);
+$conection2 = new conexion_nexos($_SESSION['empresa']);
 $inventariooperaciones2 = array();
 
 $resultInventariooperaciones2 = ibase_query($conection2->getConexion(), $query1) or die(ibase_errmsg());
@@ -588,7 +588,7 @@ function calcula_inventario()
         $buscador_baja1[]                                           = $row->IDARTICULOWEB;
     }
 
-    $conection2 = new conexion_nexos(2);
+    $conection2 = new conexion_nexos($_SESSION['empresa']);
     $buscador_baja2 = array();
     $resultInventariooperaciones2 = ibase_query($conection2->getConexion(), $query5) or die(ibase_errmsg());
     $inventariooperacionesNP = array();

@@ -423,7 +423,7 @@ while ($row1_notas = ibase_fetch_object($result1_notas, IBASE_TEXT)) {
   /*falta unirlo*/
   $arreglo1 = array_merge($arreglo1, $arreglo1_notas);
 
-    $conexion2 = new conexion_nexos(2);
+    $conexion2 = new conexion_nexos($_SESSION['empresa']);
 
     $result2 = ibase_query($conexion2->getConexion(), $query) or die(ibase_errmsg());
 

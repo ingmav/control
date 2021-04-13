@@ -76,6 +76,12 @@ if($_SESSION['ACTIVAMODULOS'] == 1)
                                 <div class="form-group">
                                     <input class="form-control" placeholder="Contraseña" name="contrasenianex" type="password" value="">
                                 </div>
+                                <div class="form-group">
+                                    <select name='tipo_sistema'  class="form-control">
+                                        <option value="2">Nexprint</option>
+                                        <option value="3">Nexprint Mostrador</option>
+                                    </select>
+                                </div>
                                 
                                 <a href="#" class="btn btn-lg btn-success btn-block" onclick="ingresar();">Ingresar</a>
                             </fieldset>

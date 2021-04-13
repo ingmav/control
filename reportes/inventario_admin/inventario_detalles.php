@@ -240,7 +240,7 @@ exit;*/
 
 function ver_detalles()
 {
-    $conection2 = new conexion_nexos(2);
+    $conection2 = new conexion_nexos($_SESSION['empresa']);
     
     echo $query = "select
 MA.ID,

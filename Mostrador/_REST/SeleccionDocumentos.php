@@ -1,11 +1,12 @@
 <?php
 	include("../../clases/conexion.php");
-	
+	session_start();
 	date_default_timezone_set('America/Mexico_City');
-	
+
 	if($_POST["accion"] == "index")
 	{
-		$conexion = new conexion_nexos(2);
+		
+		$conexion = new conexion_nexos($_SESSION['empresa']);
 		
 		$query = "select
 		DOCTOS_PV.DOCTO_PV_ID,
@@ -22,6 +23,7 @@
         $json_mostrador = array();
 		while ($row = ibase_fetch_object ($result, IBASE_TEXT)){
 			$indice = count($json_mostrador);
+			
 			$json_mostrador[$indice]['ID'] 				= $row->DOCTO_PV_ID;
 			$json_mostrador[$indice]['FOLIO'] 			= "A".(int)substr($row->FOLIO,1);
 			$json_mostrador[$indice]['FECHA'] 			= $row->FECHA;
@@ -84,7 +86,7 @@
 	}
 	if($_POST["accion"] == "index_mostrador")
 	{
-		$conection = new conexion_nexos(2);
+		$conection = new conexion_nexos($_SESSION['empresa']);
 		
 
 	    $query = "select

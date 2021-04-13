@@ -10,7 +10,7 @@
 if($_POST['accion'] == "insumos")
 	{
 
-		$conection2 = new conexion_nexos(2);
+		$conection2 = new conexion_nexos($_SESSION['empresa']);
 		$campos = array("MS_FAMILIA.DESCRIPCION", 
 						"MS_ARTICULOS.NOMBRE_ARTICULO", 
 						"MS_ARTICULOS.CANTIDAD_MINIMA", 
@@ -33,7 +33,7 @@ if($_POST['accion'] == "insumos")
 	if($_POST['accion'] == "eliminar_insumo")
 	{
 
-		$conection2 = new conexion_nexos(2);
+		$conection2 = new conexion_nexos($_SESSION['empresa']);
 		$campos = array("ESTATUS");
 		$valores = array(1);
 		$id = " ID = ".$_POST['id'];
@@ -49,7 +49,7 @@ if($_POST['accion'] == "insumos")
 	if($_POST['accion'] == "carga_insumo")
 	{
 
-		$conection2 = new conexion_nexos(2);
+		$conection2 = new conexion_nexos($_SESSION['empresa']);
 		$campos = array("NOMBRE_ARTICULO", 
 						"MS_FAMILIA_ID", 
 						"CANTIDAD_MINIMA", 

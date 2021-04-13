@@ -19,7 +19,7 @@
 		
 		$json = array();
 
-		$conection2 = new conexion_nexos(2);
+		$conection2 = new conexion_nexos($_SESSION['empresa']);
 		$query = "select
 		TABLEROPRODUCCION.ID,
 		TABLEROPRODUCCION.DOCTO_VE_DET_ID,

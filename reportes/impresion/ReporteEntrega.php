@@ -243,7 +243,7 @@ function punto_venta()
         
         $json = array();
         
-        $conection2 = new conexion_nexos(2);
+        $conection2 = new conexion_nexos($_SESSION['empresa']);
         $result = ibase_query($conection2->getConexion(), $query1) or die(ibase_errmsg());
         
         while ($row2 = ibase_fetch_object ($result, IBASE_TEXT)){

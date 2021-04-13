@@ -201,7 +201,7 @@
             $inventariooperaciones[$index]['UNIDADES'] 	       = $row->UNIDADES;
         }
 
-        $conection2 = new conexion_nexos(2);
+        $conection2 = new conexion_nexos($_SESSION['empresa']);
         $query1 = "SELECT idsubarticuloweb, sum(cantidad  + merma) as unidades from inventarioimpresion where fecha>='".$json_fecha->FECHA_INICIO."' AND fecha <='".$json_fecha->FECHA_FIN."' AND idarticuloweb=".$_POST['id']." GROUP BY idsubarticuloweb";
 
         $inventariooperaciones2 = array();
@@ -484,7 +484,7 @@ where ii.fecha>=ic.fecha_inicio and ii.idarticuloweb=i.idarticuloweb and i.idinv
             $baja_total1[$index2]['ID'] = $row2->IDARTICULOWEB;
         }
 
-        $conection2 = new conexion_nexos(2);
+        $conection2 = new conexion_nexos($_SESSION['empresa']);
 
         $result3 = ibase_query($conection2->getConexion(), $query2) or die(ibase_errmsg());
         $baja_total2 = array();
@@ -620,7 +620,7 @@ where ii.fecha>=ic.fecha_inicio and ii.idarticuloweb=i.idarticuloweb and i.idinv
         }
 	
 
-        $conection2 = new conexion_nexos(2);
+        $conection2 = new conexion_nexos($_SESSION['empresa']);
         $buscador_baja2 = array();
         $resultInventariooperaciones2 = ibase_query($conection2->getConexion(), $query5) or die(ibase_errmsg());
         $inventariooperacionesNP = array();

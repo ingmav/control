@@ -195,7 +195,7 @@ function ver_facturas($al, $filtro)
 {
     $max_date = 0;
     $array_facturas_problematicas = array();
-    $conexion = new conexion_nexos(2);
+    $conexion = new conexion_nexos($_SESSION['empresa']);
 
     $filtro_ventas = "";
     $filtro_notas  = "";

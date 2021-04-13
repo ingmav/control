@@ -12,7 +12,7 @@ if($action == "get_lista")
 	if(isset($_GET['empresa']))
 		$empresa = $_GET['empresa'];
 
-	$conection = new conexion_nexos(2);
+	$conection = new conexion_nexos($_SESSION['empresa']);
 	$query = "
 	select mc.ms_clientes_id, mc.nombre,  iif( sum(total_importe) is Null, 0, sum(total_importe)) as total, iif(msc.utilizado is Null, 0, msc.utilizado) as puntos_utilizados, iif(msc.mostrador is Null, 0, msc.mostrador) as puntos_mostrador from ms_clientes mc
 left join ms_rel_clientes mrc on mc.ms_clientes_id=mrc.ms_cliente_id
@@ -57,7 +57,7 @@ group by msc.utilizado,msc.mostrador,mc.ms_clientes_id,mc.nombre,mrc.ms_cliente_
 
 if($action == "get_ventas")
 {
-	$conection = new conexion_nexos(2);
+	$conection = new conexion_nexos($_SESSION['empresa']);
 	$query = "select dp.docto_pv_id, folio, importe_neto from doctos_pv dp where dp.tipo_docto='V' and dp.fecha='".date("Y-m-d")."' and dp.estatus!='C' and dp.cliente_id='1714' and dp.folio not in (select msdm.folio from ms_detalle_saldo_m msdm where  msdm.APLICADO_PUNTOS=1)";
 	$result = ibase_query($conection->getConexion(), $query) or die(ibase_errmsg());
 
@@ -82,7 +82,7 @@ if($action == "get_ventas")
 
 if($action == "get_ventas_descuento")
 {
-	$conection = new conexion_nexos(2);
+	$conection = new conexion_nexos($_SESSION['empresa']);
 	$query = "select dp.docto_pv_id, folio, importe_neto from doctos_pv dp where dp.tipo_docto='O' and dp.fecha='".date("Y-m-d")."' and dp.estatus='P' and dp.cliente_id='1714' and (dp.folio not in (select msdm.folio from ms_detalle_saldo_m msdm where (msdm.APLICADO_DESCUENTOS=1 or msdm.APLICADO_PUNTOS=1 and MS_CLIENTE_ID=".$_GET['id'].")))";
 
 	/*$query = "select dp.docto_pv_id, folio, importe_neto from doctos_pv dp where dp.tipo_docto='V' and dp.fecha='2017-10-23'
@@ -118,7 +118,7 @@ and dp.estatus!='C' and dp.cliente_id='1714' and
 if($action == "aplicar_puntos")
 {
 
-	$conection = new conexion_nexos(2);
+	$conection = new conexion_nexos($_SESSION['empresa']);
 	
 	$busqueda = "select first 1 (IMPORTE_NETO) as IMPORTE, FOLIO  from doctos_pv WHERE DOCTO_PV_ID=".$_GET['id'];
 	$result_busqueda = ibase_query($conection->getConexion(), $busqueda) or die(ibase_errmsg());	
@@ -181,7 +181,7 @@ if($action == "aplicar_puntos")
 if($action == "descontar_puntos")
 {
 
-	$conection = new conexion_nexos(2);
+	$conection = new conexion_nexos($_SESSION['empresa']);
 	
 	$busqueda = "select first 1 (IMPORTE_NETO) as IMPORTE, FOLIO  from doctos_pv WHERE DOCTO_PV_ID=".$_GET['id'];
 	$result_busqueda = ibase_query($conection->getConexion(), $busqueda) or die(ibase_errmsg());	

@@ -9,7 +9,7 @@
 	if($_POST["accion"] == "guardarFecha")
 	{
 
-        $conection = new conexion_nexos(2);
+        $conection = new conexion_nexos($_SESSION['empresa']);
         
         $campos = array("FECHA_ENTREGA");
 		$valores = array("'".$_POST['fecha']." ".$_POST['hora'].":00'");
@@ -25,7 +25,7 @@
     if($_POST["accion"] == "index")
 	{
 
-        $conection = new conexion_nexos(2);
+        $conection = new conexion_nexos($_SESSION['empresa']);
 
         if(isset($_POST['buscar']))
         {
@@ -315,7 +315,7 @@
         }
 
 		
-		$conection3 = new conexion_nexos(2);
+		$conection3 = new conexion_nexos($_SESSION['empresa']);
 		
 		$json3 = $conection3->select_table_advanced($campos, "TABLEROPRODUCCION", $join, $condicionales, $order, 0);
 
@@ -462,7 +462,7 @@
 		$conection2 = new conexion_nexos(1);
 		$json = $conection2->counter_advanced("TABLEROPRODUCCION", $join, $condicionales, 0);
 
-		$conection3 = new conexion_nexos(2);
+		$conection3 = new conexion_nexos($_SESSION['empresa']);
 		$json2 = $conection3->counter_advanced("TABLEROPRODUCCION", $join, $condicionales, 0);
 
 		$json->PAGINADOR += $json2->PAGINADOR; 
@@ -544,7 +544,7 @@
 	{
 		if($_SESSION['IDUSUARIO']== 21 || $_SESSION['IDUSUARIO']== 15 || $_SESSION['IDUSUARIO']== 22  || $_SESSION['IDUSUARIO']== 18  || $_SESSION['IDUSUARIO']== 56)
 		{
-            $conection2 = new conexion_nexos(2);
+            $conection2 = new conexion_nexos($_SESSION['empresa']);
 
             $campos = array("FINALIZAR_PROCESO");
             $valores = array(1);

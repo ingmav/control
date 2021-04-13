@@ -37,7 +37,7 @@ require('../../dompdf/dompdf_config.inc.php');
         "ESTATUSSEGUIMIENTO", "=", "CLIENTESCALL.IDESTATUSSEGUIMIENTO", "ESTATUSSEGUIMIENTO.ID","UNION",
 
     );
-    $conection = new conexion_nexos(2);
+    $conection = new conexion_nexos($_SESSION['empresa']);
     $json = $conection->select_table_advanced($campos, "CLIENTESCALL", $join, "", array(), 0);
 
     //print_r($jsonlevantamiento);

@@ -8,7 +8,7 @@
 	
 	date_default_timezone_set('America/Mexico_City');
 	
-	$conection = new conexion_nexos(2);
+	$conection = new conexion_nexos($_SESSION['empresa']);
 
 
 	if($_POST["accion"] == "index")
@@ -262,7 +262,7 @@ if($_POST["accion"] == "update_crm")
         }
         $json6 = array_merge($json, $json4);
 
-        $conection = new conexion_nexos(2);
+        $conection = new conexion_nexos($_SESSION['empresa']);
 
         foreach ($json6 as $valor3) {
             $condicionales = " AND CLIENTESCALL.NOMBRE = '".$valor3['CLIENTES.NOMBRE']."'";

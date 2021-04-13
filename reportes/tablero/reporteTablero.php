@@ -16,7 +16,7 @@ $html = '<html style="margin-top: 0em;}">';
 $arreglo = Array();
 //$arreglo = (explode("_",$_POST['id'][0]));
 
-$conection = new conexion_nexos(2);
+$conection = new conexion_nexos($_SESSION['empresa']);
 
 $nexos = Array();
 $nexprint = Array();
@@ -252,7 +252,7 @@ foreach($json as $arreglo)
     $contador++;
 }
 
-$conection3 = new conexion_nexos(2);
+$conection3 = new conexion_nexos($_SESSION['empresa']);
 
 
 $condicionales2 = " DOCTOS_VE.FECHA > '2014-11-01' AND (DOCTOS_VE.TIPO_DOCTO='F' OR DOCTOS_VE.TIPO_DOCTO='R') AND DOCTOS_VE.ESTATUS!='C'

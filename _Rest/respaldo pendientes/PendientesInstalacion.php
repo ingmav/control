@@ -37,7 +37,7 @@
 			$consulta1 .= " AND TABLEROPRODUCCION.ACTIVACION = 1";	
 		}
 		
-		$conection2 = new conexion_nexos(2);
+		$conection2 = new conexion_nexos($_SESSION['empresa']);
 		
 		
 		$query = "select

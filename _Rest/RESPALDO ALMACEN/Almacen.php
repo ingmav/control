@@ -13,7 +13,7 @@
 	if($_POST["accion"] == "index")
 	{
 		$consulta1 = "";
-		$conection2 = new conexion_nexos(2);
+		$conection2 = new conexion_nexos($_SESSION['empresa']);
 		$consulta_filtro = "";	
 
 		if($_POST['familia']!=0)
@@ -106,7 +106,7 @@ and dv.estatus!='C' ) x";
 
 	if($_POST["accion"] == "formularios")
 	{
-		$conection2 = new conexion_nexos(2);
+		$conection2 = new conexion_nexos($_SESSION['empresa']);
 		
 		$query = "select
 		ID,
@@ -180,7 +180,7 @@ and dv.estatus!='C' ) x";
 
 	if($_POST["accion"] == "baja")
 	{
-		$conection2 = new conexion_nexos(2);
+		$conection2 = new conexion_nexos($_SESSION['empresa']);
 		$campos = array("ESTATUS_INVENTARIO");
 		$valores = array(1);
 		$id = " ID_INVENTARIO in (".implode(",",$_POST['bajas']).")";
@@ -194,7 +194,7 @@ and dv.estatus!='C' ) x";
 
 	if($_POST["accion"] == "cerrar_factura")
 	{
-		$conection2 = new conexion_nexos(2);
+		$conection2 = new conexion_nexos($_SESSION['empresa']);
 		$campos = array("CERRADA");
 		$valores = array(1);
 		$id = " CERRADA=0";
@@ -208,7 +208,7 @@ and dv.estatus!='C' ) x";
 
 	if($_POST['accion'] == "ver_inventario")
 	{
-		$conection2 = new conexion_nexos(2);
+		$conection2 = new conexion_nexos($_SESSION['empresa']);
 		$query = "select
 		MI.ID_INVENTARIO,
 		MI.CANTIDAD_RESTANTE,
@@ -243,7 +243,7 @@ and dv.estatus!='C' ) x";
 	if($_POST['accion'] == "baja_almacen")
 	{
 		
-		$conection2 = new conexion_nexos(2);
+		$conection2 = new conexion_nexos($_SESSION['empresa']);
 		foreach ($_POST['ids'] as $key => $value) {
 			
 
@@ -296,7 +296,7 @@ and dv.estatus!='C' ) x";
 
 	if($_POST["accion"] == "articulos")
 	{
-		$conection2 = new conexion_nexos(2);
+		$conection2 = new conexion_nexos($_SESSION['empresa']);
 		
 		$query = "select
 		ID,
@@ -321,7 +321,7 @@ and dv.estatus!='C' ) x";
 
 	if($_POST["accion"] == "guardar")
 	{
-		$conection2 = new conexion_nexos(2);
+		$conection2 = new conexion_nexos($_SESSION['empresa']);
 
 		$query = "select
 		FIRST 1
@@ -454,7 +454,7 @@ and dv.estatus!='C' ) x";
 	if($_POST['accion'] == "guardar_proveedor")
 	{
 
-		$conection2 = new conexion_nexos(2);
+		$conection2 = new conexion_nexos($_SESSION['empresa']);
 		$campos = array("NOMBRE", 
 						"DIRECCION", 
 						"TELEFONO", 
@@ -479,7 +479,7 @@ and dv.estatus!='C' ) x";
 	if($_POST['accion'] == "guardar_insumo")
 	{
 
-		$conection2 = new conexion_nexos(2);
+		$conection2 = new conexion_nexos($_SESSION['empresa']);
 		$campos = array("NOMBRE_ARTICULO", 
 						"ESTATUS", 
 						"MS_FAMILIA_ID", 
@@ -504,7 +504,7 @@ and dv.estatus!='C' ) x";
 
 	if($_POST['accion'] == "proveedor")
 	{
-		$conection2 = new conexion_nexos(2);
+		$conection2 = new conexion_nexos($_SESSION['empresa']);
 		$query = "SELECT
 					ID,
 					NOMBRE,
@@ -532,7 +532,7 @@ FROM MS_PROVEEDOR WHERE DELETED IS NULL";
 
 	if($_POST["accion"] == "actualiza_lista_factura")
 	{
-		$conection2 = new conexion_nexos(2);
+		$conection2 = new conexion_nexos($_SESSION['empresa']);
 		$query = "SELECT
 mi.FACTURA_COMPRA,
 ma.nombre_articulo,
@@ -566,7 +566,7 @@ group BY mi.FACTURA_COMPRA, ma.nombre_articulo, mi.precio_unitario";
 	}
 
 	/*	{
-		$conection2 = new conexion_nexos(2);
+		$conection2 = new conexion_nexos($_SESSION['empresa']);
 
 		
 		$campos = array("NOMBRE", "activo");
@@ -583,7 +583,7 @@ group BY mi.FACTURA_COMPRA, ma.nombre_articulo, mi.precio_unitario";
 	if($_POST["accion"] == "guardar_transferencia")
 	{
 		
-		$conection2 = new conexion_nexos(2);
+		$conection2 = new conexion_nexos($_SESSION['empresa']);
 		$campos = array("MS_ALMACEN_ID");
 		$valores = array($_POST['almacen_transferencia']);
 		$id = " ID_INVENTARIO in (".implode(",",$_POST['bajas']).")";
@@ -599,7 +599,7 @@ group BY mi.FACTURA_COMPRA, ma.nombre_articulo, mi.precio_unitario";
 	{
 
 
-		$conection2 = new conexion_nexos(2);
+		$conection2 = new conexion_nexos($_SESSION['empresa']);
 		
 		$query = "select
 		FIRST 1
@@ -639,7 +639,7 @@ group BY mi.FACTURA_COMPRA, ma.nombre_articulo, mi.precio_unitario";
 	if($_POST["accion"] == "eliminar_proveedor")
 	{
 		
-		$conection2 = new conexion_nexos(2);
+		$conection2 = new conexion_nexos($_SESSION['empresa']);
 		$campos = array("DELETED");
 		$valores = array(date("Y-m-d H:i:s"));
 		$id = " ID = ".$_POST['ID'];
@@ -653,7 +653,7 @@ group BY mi.FACTURA_COMPRA, ma.nombre_articulo, mi.precio_unitario";
 
 	if($_POST["accion"] == "actualizar_inventario")
 	{
-		$conection2 = new conexion_nexos(2);
+		$conection2 = new conexion_nexos($_SESSION['empresa']);
 		$query = "select 
  			MA.ID,
  			MA.NOMBRE_ARTICULO,

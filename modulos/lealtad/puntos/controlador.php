@@ -12,7 +12,7 @@ if($action == "get_lista")
 	if(isset($_GET['empresa']))
 		$empresa = $_GET['empresa'];
 
-	$conection = new conexion_nexos(2);
+	$conection = new conexion_nexos($_SESSION['empresa']);
 	$query = "
 	select mc.ms_clientes_id, mc.nombre,  iif( sum(total_importe) is Null, 0, sum(total_importe)) as total, iif(msc.utilizado is Null, 0, msc.utilizado) as puntos_utilizados, iif(msc.mostrador is Null, 0, msc.mostrador) as puntos_mostrador from ms_clientes mc
 left join ms_rel_clientes mrc on mc.ms_clientes_id=mrc.ms_cliente_id
@@ -57,7 +57,7 @@ group by msc.utilizado,msc.mostrador,mc.ms_clientes_id,mc.nombre,mrc.ms_cliente_
 
 if($action == "get_pedido")
 {
-	$conection = new conexion_nexos(2);
+	$conection = new conexion_nexos($_SESSION['empresa']);
 	$query = "select dv.docto_ve_id, dv.folio, dv.descripcion, (dv.importe_neto) as monto from doctos_ve dv where dv.cliente_id in (select mrc.cliente_id from ms_rel_clientes mrc where mrc.ms_cliente_id=".$_GET['id'].")
 and dv.tipo_docto='P' and dv.fecha between '".date("Y")."-01-01' and '".date("Y")."-12-31' and dv.estatus='P' and dv.folio not in (select LPAD(FOLIO,9,0) from ms_detalle_saldo)";
 			
@@ -87,7 +87,7 @@ and dv.tipo_docto='P' and dv.fecha between '".date("Y")."-01-01' and '".date("Y"
 if($action == "aplicar_puntos")
 {
 
-	$conection = new conexion_nexos(2);
+	$conection = new conexion_nexos($_SESSION['empresa']);
 	
 	$busqueda = "select first 1 (IMPORTE_NETO) as IMPORTE, FOLIO  from doctos_ve WHERE DOCTO_VE_ID=".$_GET['id'];
 	$result_busqueda = ibase_query($conection->getConexion(), $busqueda) or die(ibase_errmsg());	

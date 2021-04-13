@@ -199,7 +199,7 @@ function punto_venta()
 {
     date_default_timezone_set('America/Mexico_City');
     
-    $conection = new conexion_nexos(2);
+    $conection = new conexion_nexos($_SESSION['empresa']);
 
 
     $candado = "";

@@ -521,7 +521,7 @@ $campos_operador = array("OPERADORDEPARTAMENTO.ID",
             }
             if($Empresa == 2)
             {
-                $conection2 = new conexion_nexos(2);    
+                $conection2 = new conexion_nexos($_SESSION['empresa']);    
             }       
             if($tipo == 3)
             {

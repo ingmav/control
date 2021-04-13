@@ -7,7 +7,7 @@
 
 	if($_POST['accion'] == "index")
 	{
-        $conection = new conexion_nexos(2);
+        $conection = new conexion_nexos($_SESSION['empresa']);
 
         $query = "select extract(month from fecha) as mes , sum(doctos_ve.importe_neto) AS IMPORTE from doctos_ve where DOCTOS_VE.tipo_docto in ('F', 'R') and DOCTOS_VE.docto_ve_id not in (select dvl.docto_ve_fte_id from  doctos_ve_ligas dvl) and DOCTOS_VE.estatus!='C' and DOCTOS_vE.fecha>='".date("Y").".01.01' group by mes";
         $query1_notas = "select extract(month from idc.fecha) as MES, sum(idc.importe) as IMPORTE from doctos_cc dc, IMPORTES_DOCTOS_CC IDC where dc.concepto_cc_id='8' and dc.cancelado='N' and IDC.docto_cc_id = DC.docto_cc_id and idc.fecha>'".date("Y").".01.01' group by mes";
@@ -185,7 +185,7 @@
 			$condicionales = "AND CLAVES_ARTICULOS.CLAVE_ARTICULO='".$value."' AND DOCTOS_VE.TIPO_DOCTO='F'";
 
 			$json = $conection->counter_advanced("DOCTOS_VE_DET", $join, $condicionales, 0);
-			$conection = new conexion_nexos(2);
+			$conection = new conexion_nexos($_SESSION['empresa']);
 
 			$json2 = $conection->counter_advanced("DOCTOS_VE_DET", $join, $condicionales, 0);
 

@@ -10,7 +10,7 @@
 	if($_POST["accion"] == "index")
 	{
 
-		$conection = new conexion_nexos(2);
+		$conection = new conexion_nexos($_SESSION['empresa']);
 
 		if($_POST['estatus'] == 1)
 		{
@@ -214,7 +214,7 @@
 
 if($_POST["accion"] == "finalizar")
 {
-	$conection = new conexion_nexos(2);
+	$conection = new conexion_nexos($_SESSION['empresa']);
 	$procesos = $_POST['procesos'];
 	$arreglo_general_gf = array();
 	$arreglo_general_dg = array();

@@ -42,7 +42,7 @@ $fechas_nexos = calculo_cotizaciones($conection);//arreglo de consulta proyeccio
   $conection = null;
 
 //Nexprint
-$conection2 = new conexion_nexos(2);
+$conection2 = new conexion_nexos($_SESSION['empresa']);
 $datos_nexprint = Calculo_datos_cotizaciones($conection2, $fecha_completa, "NP");
 
 

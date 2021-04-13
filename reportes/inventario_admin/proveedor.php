@@ -193,7 +193,7 @@ exit;
 
 function ver_pagos_proveedor()
 {
-    $conexion = new conexion_nexos(2);
+    $conexion = new conexion_nexos($_SESSION['empresa']);
 
     $query =  "select
  MI.factura_compra,

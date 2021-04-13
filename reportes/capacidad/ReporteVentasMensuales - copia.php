@@ -347,7 +347,7 @@ IDC3.docto_cc_acr_id";
         //$arreglo1[$index]['APLICACION_PAGO']        = $row->APLICACION_PAGO;
     }
 
-    $conexion2 = new conexion_nexos(2);
+    $conexion2 = new conexion_nexos($_SESSION['empresa']);
 
     $result2 = ibase_query($conexion2->getConexion(), $query) or die(ibase_errmsg());
 

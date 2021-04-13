@@ -5,7 +5,7 @@ require('../../dompdf/dompdf_config.inc.php');
 $html = '<html style="margin-top: 0em;}">';
 
 $conection = new conexion_nexos(1);
-//$conection2 = new conexion_nexos(2);
+//$conection2 = new conexion_nexos($_SESSION['empresa']);
 
 if(isset($_GET['departamento']) and isset($_GET['fecha']))
 {

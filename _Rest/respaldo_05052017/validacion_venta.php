@@ -13,7 +13,7 @@
 		$candado = "";
 		
 		$json = array();
-		$conection1 = new conexion_nexos(2);
+		$conection1 = new conexion_nexos($_SESSION['empresa']);
 		
 		
 		$query = "select
@@ -101,7 +101,7 @@
 
 	if($_POST["accion"] == "recalcula_precio")
 	{
-		$conection1 = new conexion_nexos(2);
+		$conection1 = new conexion_nexos($_SESSION['empresa']);
 		$json = array();
 
 		$query = "select first 1 precio_compra from ms_inventario where ms_combo_id=".$_POST['valor']." order by fecha_actualizacion desc";
@@ -124,7 +124,7 @@
 
 	if($_POST["accion"] == "validar")
 		{
-			$conection1 = new conexion_nexos(2);
+			$conection1 = new conexion_nexos($_SESSION['empresa']);
 			$json = array();
 
 			$seleccionado = $_POST['venta'];

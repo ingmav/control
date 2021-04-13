@@ -120,7 +120,7 @@ $estiloInformacion->applyFromArray(
       )
   ));
 
-$conection = new conexion_nexos(2);
+$conection = new conexion_nexos($_SESSION['empresa']);
 $desde = $_POST['desde_mostrador'];
 $hasta = $_POST['hasta_mostrador'];
 

@@ -662,7 +662,7 @@ class NumberToLetterConverter {
 /*
 f($_POST["accion"] == "guardaXml")
 	{
-		$conection = new conexion_nexos(2);
+		$conection = new conexion_nexos($_SESSION['empresa']);
 
 		$consulta = "";
         
@@ -693,7 +693,7 @@ include("../../clases/conexion.php");
 	
 	if($_POST["accion"] == "index")
 	{
-		$conection = new conexion_nexos(2);
+		$conection = new conexion_nexos($_SESSION['empresa']);
 
         $consulta = "";
         
@@ -714,7 +714,7 @@ include("../../clases/conexion.php");
 
 	if($_POST["accion"] == "carga_configuracion")
 	{
-		$conection = new conexion_nexos(2);
+		$conection = new conexion_nexos($_SESSION['empresa']);
 
         $consulta = "";
         
@@ -735,7 +735,7 @@ include("../../clases/conexion.php");
 
 	if($_POST["accion"] == "actualiza_configuracion")
 	{
-		$conection = new conexion_nexos(2);
+		$conection = new conexion_nexos($_SESSION['empresa']);
 
         $campos = array("NO_PROVEEDOR", "GLN_PROVEEDOR", "GLN_LIVERPOOL");
 		$valores = array("'".$_POST['no_proveedor']."'", "'".$_POST['gln_nexprint']."'", "'".$_POST['gln_liverpool']."'");

@@ -19,7 +19,7 @@
 		}*/
 		
 		
-		$conection2 = new conexion_nexos(2);
+		$conection2 = new conexion_nexos($_SESSION['empresa']);
 		
 		/*$query = "select
 MA.ID,
@@ -88,7 +88,7 @@ and dv.estatus!='C' ) x";
 
 	if($_POST["accion"] == "formularios")
 	{
-		$conection2 = new conexion_nexos(2);
+		$conection2 = new conexion_nexos($_SESSION['empresa']);
 		
 		$query = "select
 		ID,
@@ -132,7 +132,7 @@ and dv.estatus!='C' ) x";
 
 	if($_POST["accion"] == "baja")
 	{
-		$conection2 = new conexion_nexos(2);
+		$conection2 = new conexion_nexos($_SESSION['empresa']);
 		$campos = array("ESTATUS_INVENTARIO");
 		$valores = array(1);
 		$id = " ID_INVENTARIO in (".implode(",",$_POST['bajas']).")";
@@ -147,7 +147,7 @@ and dv.estatus!='C' ) x";
 
 	if($_POST["accion"] == "guardar")
 	{
-		$conection2 = new conexion_nexos(2);
+		$conection2 = new conexion_nexos($_SESSION['empresa']);
 
 		$cantidad = $_POST['cantidad'];
 		$dimension = $_POST['dimension'];
@@ -186,7 +186,7 @@ and dv.estatus!='C' ) x";
 
 	if($_POST["accion"] == "guardar_almacen")
 	{
-		$conection2 = new conexion_nexos(2);
+		$conection2 = new conexion_nexos($_SESSION['empresa']);
 
 		
 		$campos = array("NOMBRE", "activo");
@@ -203,7 +203,7 @@ and dv.estatus!='C' ) x";
 	if($_POST["accion"] == "guardar_transferencia")
 	{
 		
-		$conection2 = new conexion_nexos(2);
+		$conection2 = new conexion_nexos($_SESSION['empresa']);
 		$campos = array("MS_ALMACEN_ID");
 		$valores = array($_POST['almacen_transferencia']);
 		$id = " ID_INVENTARIO in (".implode(",",$_POST['bajas']).")";

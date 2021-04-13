@@ -3,8 +3,8 @@
 	session_start();
 	date_default_timezone_set('America/Mexico_City');
 	
-	$conection = new conexion_nexos(2);
-	//$conexion = $conection->conexion_nexos(2);
+	$conection = new conexion_nexos($_SESSION['empresa']);
+	//$conexion = $conection->conexion_nexos($_SESSION['empresa']);
 	
 	if($_POST["accion"] == "index")
 	{
@@ -32,8 +32,8 @@
 
 	if($_POST["accion"] == "index_Pv")
 	{
-		$conection = new conexion_nexos(2);
-		//$conexion = $conection->conexion_nexos(2);
+		$conection = new conexion_nexos($_SESSION['empresa']);
+		//$conexion = $conection->conexion_nexos($_SESSION['empresa']);
 	
 		$query = "select 
 produccionpv.id,
@@ -121,7 +121,7 @@ AND ARTICULOS.LINEA_ARTICULO_ID NOT IN (2146,2147,2142, 2149, 2143) AND CLAVES_A
 
 	if($_POST['accion'] == "save_pv")
 	{
-		$conection = new conexion_nexos(2);
+		$conection = new conexion_nexos($_SESSION['empresa']);
 		$contador = count($_POST['procesos']);
 		$count = 0;
 		$join = array();
@@ -185,7 +185,7 @@ AND ARTICULOS.LINEA_ARTICULO_ID NOT IN (2146,2147,2142, 2149, 2143) AND CLAVES_A
 
 	if($_POST["accion"] == "save")
 	{
-		$conection = new conexion_nexos(2);
+		$conection = new conexion_nexos($_SESSION['empresa']);
 		
 		$contador = count($_POST['procesos']);
 		$count = 0;

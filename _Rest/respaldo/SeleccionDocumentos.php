@@ -5,7 +5,7 @@
 	
 	//$conection = new conexion_nexos();
 	//$conexion = $conection->conexion_nexos($_POST['empresa']);
-	$conection = new conexion_nexos(2);
+	$conection = new conexion_nexos($_SESSION['empresa']);
 	
 	if($_POST["accion"] == "index")
 	{
@@ -41,7 +41,7 @@
 
 	if($_POST["accion"] == "index_mostrador")
 	{
-		$conexion = $conection->conexion_nexos(2);
+		$conexion = $conection->conexion_nexos($_SESSION['empresa']);
 
 	   $query = "select
 		DOCTOS_PV.DOCTO_PV_ID,

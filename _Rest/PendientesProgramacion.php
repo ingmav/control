@@ -71,7 +71,7 @@
 			$index++;
 		}
 
-		$conection2 = new conexion_nexos(2);
+		$conection2 = new conexion_nexos($_SESSION['empresa']);
 		$json2 = $conection2->select_table($campos, "TABLEROPRODUCCION", $join, $condicionales, $order, 0);
 		
 		$index = 0;

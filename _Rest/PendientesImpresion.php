@@ -41,7 +41,7 @@
 		//Nueva consulta
 		
 
-		$conection2 = new conexion_nexos(2);
+		$conection2 = new conexion_nexos($_SESSION['empresa']);
 		
 		
 		$query = "select
@@ -588,7 +588,7 @@
 
     if($_POST['accion'] == "cargainventario")
     {
-        $conection = new conexion_nexos(2);
+        $conection = new conexion_nexos($_SESSION['empresa']);
 
         $query = "select imp.id as ID, a.nombrelinea as nombrelinea, a.nombre as nombrearticulo,  sa.nombre as nombresubarticulo, imp.cantidad, imp.merma, imp.motivo from  articulosweb as a
 left join lineas_articulos as l on a.linea_articulo_id=l.linea_articulo_id
@@ -662,7 +662,7 @@ order by  l.nombre";
     if($_POST['accion'] == 'cargaInventario_MS')
     {
     	$json = array();
-		$conection1 = new conexion_nexos(2);
+		$conection1 = new conexion_nexos($_SESSION['empresa']);
 		
 		
 		$query = "select

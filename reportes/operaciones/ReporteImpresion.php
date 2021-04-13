@@ -131,7 +131,7 @@ foreach($json_operador as $row_operador)
 		$index++;
 	}
 
-	$conection2 = new conexion_nexos(2);
+	$conection2 = new conexion_nexos($_SESSION['empresa']);
 	$json2 = $conection2->select_table_advanced($campos, "TABLEROPRODUCCION", $join, $condicionales, $order, 0);
 
 	$index = 0;
@@ -145,7 +145,7 @@ foreach($json_operador as $row_operador)
 
 		$condicionales22 = " AND ARTICULO_ID=".$json2[$index]['ARTICULOS.ARTICULO_ID'];
 
-		$conection22 = new conexion_nexos(2);
+		$conection22 = new conexion_nexos($_SESSION['empresa']);
 		
 
 		$json22 = $conection22->select_table($campos22, "ARTICULOS", $join22, $condicionales22, $order, 0);

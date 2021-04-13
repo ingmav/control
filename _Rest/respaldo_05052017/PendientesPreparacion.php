@@ -19,7 +19,7 @@
 		
 		
 
-		$conection2 = new conexion_nexos(2);
+		$conection2 = new conexion_nexos($_SESSION['empresa']);
 		
 		
 		$query = "select

@@ -129,7 +129,7 @@ if($_POST['accion'] == "datosFacturacion")
 
 		}
 
-		$conection2 = new conexion_nexos(2);
+		$conection2 = new conexion_nexos($_SESSION['empresa']);
 
 		$json2 = $conection2->select_table_advanced_with_counter($campos, $campos, "DOCTOS_VE", $join, $condicionales, $order, 0 , NULL, 2);
 
@@ -206,7 +206,7 @@ if($_POST['accion'] == "datosFinalizados")
     }
 
 
-    $conexion2 = new conexion_nexos(2);
+    $conexion2 = new conexion_nexos($_SESSION['empresa']);
 
     $result2 = ibase_query($conexion2->getConexion(), $query) or die(ibase_errmsg());
 
@@ -279,7 +279,7 @@ if($_POST['accion'] == "datosGenerales")
 	//Fin Facturacion
 
 	//VER NEXPRINT
-	$conection2 = new conexion_nexos(2);
+	$conection2 = new conexion_nexos($_SESSION['empresa']);
 
 	//DOCUMENTOS FINALIZADOS
 	/*$join = array("DOCTOS_VE", "=", "DOCTOS_VE.DOCTO_VE_ID", "TABLEROPRODUCCION.DOCTO_VE_ID");

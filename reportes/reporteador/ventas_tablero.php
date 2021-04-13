@@ -180,7 +180,7 @@ exit;
 
 function ver_ventas()
 {
-    $conexion = new conexion_nexos(2);
+    $conexion = new conexion_nexos($_SESSION['empresa']);
 
     $query = "
 select FOLIO, FECHA, MONTO, NOMBRE, DESCRIPCION FROM

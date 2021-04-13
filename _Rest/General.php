@@ -76,7 +76,7 @@
             $arreglo_indices[] = $row1->IDDEPARTAMENTO;
         }
         
-        $conection2 = new conexion_nexos(2);
+        $conection2 = new conexion_nexos($_SESSION['empresa']);
         $query2 = "select p.iddepartamento, d.descripciondepartamento, count(*) as conteo from tableroproduccion tp, produccion p, departamento d, doctos_ve dv where tp.id not in (select idtableroproduccion from documentosfinalizados) and dv.docto_ve_id=tp.docto_ve_id and tp.id=p.idtableroproduccion and p.iddepartamento=d.id and dv.estatus!='C' and p.idestatus!=2 group by p.iddepartamento, d.descripciondepartamento";
 
         $result2 = ibase_query($conection2->getConexion(), $query2) or die(ibase_errmsg());
@@ -241,7 +241,7 @@
 	    $arreglo1_1_nota = $conection->sum_regular("IMPORTES_DOCTOS_CC.IMPORTE", "", "DOCTOS_CC", $join, $condicionales_nota_2, $softdelete);
 			//Fin Aqui
 
-  	  $conection2 = new conexion_nexos(2);
+  	  $conection2 = new conexion_nexos($_SESSION['empresa']);
 	    $arreglo2 = $conection2->sum_regular("DOCTOS_VE.IMPORTE_NETO", "", "DOCTOS_VE", array(), $condicionales, $softdelete);
 
 	    $arreglo2_1 = $conection2->sum_regular("DOCTOS_VE.IMPORTE_NETO", "", "DOCTOS_VE", array(), $condicionales_1, $softdelete);

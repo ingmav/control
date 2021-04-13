@@ -409,7 +409,7 @@ function capacidad($join, $claves1, $empresa, $join2, $claves2, $fecha1, $fecha2
               $paginador = $row;
           }*/
 
-          $conection2 = new conexion_nexos(2);
+          $conection2 = new conexion_nexos($_SESSION['empresa']);
 
           
           
@@ -508,7 +508,7 @@ function capacidad_otros($join, $claves1, $empresa, $join2, $claves2, $fecha1, $
               $paginador = $row;
           }*/
 
-          $conection2 = new conexion_nexos(2);
+          $conection2 = new conexion_nexos($_SESSION['empresa']);
 
           $query2 = "select sum(unidades) as unidades, sum(cantidad) as cantidad from 
           (select SUM(DOCTOS_VE_DET.UNIDADES) as UNIDADES, SUM(DOCTOS_VE_DET.PRECIO_TOTAL_NETO) as CANTIDAD from DOCTOS_VE_DET

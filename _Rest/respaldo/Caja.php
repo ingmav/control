@@ -430,7 +430,7 @@
 		$json1 = $conection1->select_table($campos, "CAJA", $join, $condicionales, $order, 1);
 		$json2 = $conection1->select_table($campos2, "CAJA", $join2, $condicionales2, $order, 1);
 
-		$conection2 = new conexion_nexos(2);
+		$conection2 = new conexion_nexos($_SESSION['empresa']);
 
 		foreach ($json2 as $key => $value) {
 			

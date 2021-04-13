@@ -26,7 +26,7 @@ if($_POST["accion"] == "index")
         $arreglo1[$index]['CONTEO'] = $row->CONTADOR;
     }
 
-    $conexion = new conexion_nexos(2);
+    $conexion = new conexion_nexos($_SESSION['empresa']);
 
     $result = ibase_query($conexion->getConexion(), $query) or die(ibase_errmsg());
 
@@ -67,7 +67,7 @@ if($_POST["accion"] == "reestablecer")
         }
     }
 
-    $new_conexion = new conexion_nexos(2);
+    $new_conexion = new conexion_nexos($_SESSION['empresa']);
 
     $result = ibase_query($new_conexion->getConexion(), $query) or die(ibase_errmsg());
 

@@ -71,7 +71,7 @@
 		}
 
 
-		/*$conection2 = new conexion_nexos(2);
+		/*$conection2 = new conexion_nexos($_SESSION['empresa']);
 		$json2 = $conection2->select_table_advanced2($campos, "DOCTOS_VE", $join, $condicionales, $order, 0);
 		
 		$index = 0;
@@ -219,7 +219,7 @@
 		$conection2 = new conexion_nexos($_POST['empresa']);
 		$json2 = $conection2->counter("DOCTOS_VE", $join2, $condicionales2, 0);
 
-		/*$conection3 = new conexion_nexos(2);
+		/*$conection3 = new conexion_nexos($_SESSION['empresa']);
 		$json3 = $conection3->counter("DOCTOS_VE", $join2, $condicionales2, 0);
 		*/
 		$counter_final['PAGINADOR'] = $json2->PAGINADOR;

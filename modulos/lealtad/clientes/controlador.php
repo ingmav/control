@@ -12,7 +12,7 @@ if($action == "get_lista")
 	if(isset($_GET['empresa']))
 		$empresa = $_GET['empresa'];
 
-	$conection = new conexion_nexos(2);
+	$conection = new conexion_nexos($_SESSION['empresa']);
 	$query = "select mc.clave, mc.fecha_nacimiento, mc.nombre, mc.ms_clientes_id, (select count(*) from ms_rel_clientes where mc.ms_clientes_id=ms_cliente_id) as relacion from ms_clientes mc
 	WHERE mc.BORRADO_AL IS NULL
 	AND mc.nombre like '%".strtoupper($empresa)."%'";
@@ -39,7 +39,7 @@ if($action == "get_lista")
 
 if($action == "get_rel_cliente")
 {
-	$conection = new conexion_nexos(2);
+	$conection = new conexion_nexos($_SESSION['empresa']);
 	$query = "select mc.clave, mc.fecha_nacimiento, mc.nombre, mc.ms_clientes_id, (select count(*) from ms_rel_clientes where mc.ms_clientes_id=ms_cliente_id) as relacion from ms_clientes mc
 	WHERE mc.BORRADO_AL IS NULL
 	AND mc.ms_clientes_id=".$_GET['id'];
@@ -111,7 +111,7 @@ group by c.cliente_id, cc.clave_cliente, c.nombre";
 
 if($action == "set_rel_cliente")
 {
-	$conection = new conexion_nexos(2);
+	$conection = new conexion_nexos($_SESSION['empresa']);
 	$query = "select count(*) as contador from ms_rel_clientes where ms_cliente_id=".$_GET['id_cliente_principal']." and cliente_id=".$_GET['id_cliente_relacion'];
 			
 	$result = ibase_query($conection->getConexion(), $query) or die(ibase_errmsg());
@@ -138,7 +138,7 @@ if($action == "set_rel_cliente")
 
 if($action == "save_rel_cliente")
 {
-	$conection = new conexion_nexos(2);
+	$conection = new conexion_nexos($_SESSION['empresa']);
 	
 	if ((int)$_GET['id'] == 0) {
 
@@ -172,7 +172,7 @@ if($action == "save_rel_cliente")
 
 if($action == "search_cliente")
 {
-	$conection = new conexion_nexos(2);
+	$conection = new conexion_nexos($_SESSION['empresa']);
 	
 	$query = "select MS_CLIENTES_ID, clave, fecha_nacimiento, nombre from ms_clientes where MS_CLIENTES_ID=".$_GET['id'];
 			
@@ -195,7 +195,7 @@ if($action == "search_cliente")
 
 if($action == "actualizar_clientes")
 {
-	$conection = new conexion_nexos(2);
+	$conection = new conexion_nexos($_SESSION['empresa']);
 	
 	$query = "select nombre, cliente_id from clientes where cliente_id not in (select cliente_id from ms_rel_clientes) and clientes.estatus!='B'";
 			

@@ -7,7 +7,7 @@
 	
 	date_default_timezone_set('America/Mexico_City');
 	
-	$conection = new conexion_nexos(2);
+	$conection = new conexion_nexos($_SESSION['empresa']);
 
 
 	if($_POST["accion"] == "index")
@@ -273,7 +273,7 @@
 
     if($_POST["accion"] == "save")
     {
-        $conection = new conexion_nexos(2);
+        $conection = new conexion_nexos($_SESSION['empresa']);
 
         $campos = array("FECHAHORA", "IDOPERADOR", "DESCRIPCION", "IDUSUARIO", "ACTIVACION");
         
@@ -501,7 +501,7 @@
 
     if($_POST['accion'] == "cargainventario")
     {
-        $conection = new conexion_nexos(2);
+        $conection = new conexion_nexos($_SESSION['empresa']);
 
         $query = "select imp.id as ID, a.nombrelinea as nombrelinea, a.nombre as nombrearticulo,  sa.nombre as nombresubarticulo, imp.cantidad, imp.merma, imp.motivo
         from  articulosweb as a
@@ -595,7 +595,7 @@ function calculaArticuloUtilizado($empresa, $idtablero)
 
 if($_POST['accion'] == 'saveInventario')
 {
-    $conection = new conexion_nexos(2);
+    $conection = new conexion_nexos($_SESSION['empresa']);
     $campos2 = array("IDARTICULOWEB", "IDSUBARTICULOWEB", "CANTIDAD", "MERMA", "MOTIVO", "IDTABLEROPRODUCCION", "IDOPERADOR", "IDTIPO");
     $valores2 = array($_POST['articulo'], $_POST['subarticulo'], $_POST['cantidad'], $_POST['merma'], "'".$_POST['motivo']."'",  $_POST['idproduccion'], $_SESSION['IDUSUARIO'],2);
 
@@ -607,7 +607,7 @@ if($_POST['accion'] == 'saveInventario')
 
 if($_POST['accion'] == 'deleteinventario')
 {
-    $conection = new conexion_nexos(2);
+    $conection = new conexion_nexos($_SESSION['empresa']);
     $id = " INVENTARIOIMPRESION.ID = ".$_POST['idinventario']." AND INVENTARIOIMPRESION.IDTIPO=2";
     $json = $conection->delete_of_table("INVENTARIOIMPRESION", $id, Array());
 

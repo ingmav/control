@@ -8,7 +8,7 @@ session_start();
 if($_POST["accion"] == "index")
 {
 
-	$conection = new conexion_nexos(2);
+	$conection = new conexion_nexos($_SESSION['empresa']);
 
 	$consulta = "";
 	
@@ -52,7 +52,7 @@ order by ca.clave_articulo, a.nombre";
 
 if($_POST["accion"] == "carga_insumos")
 {
-	$conection = new conexion_nexos(2);
+	$conection = new conexion_nexos($_SESSION['empresa']);
 
 
 	$query = " select MR.ID, MA.NOMBRE_ARTICULO, MR.CANTIDAD, MT.DESCRIPCION from MS_RELACION MR, MS_ARTICULOS MA, MS_TIPO_BAJA MT
@@ -80,7 +80,7 @@ if($_POST["accion"] == "carga_insumos")
 
 if($_POST["accion"] == "catalogo_grupos")
 {
-	$conection2 = new conexion_nexos(2);
+	$conection2 = new conexion_nexos($_SESSION['empresa']);
 		
 	$query = "select
 	ID,
@@ -139,7 +139,7 @@ if($_POST["accion"] == "catalogo_grupos")
 
 if($_POST["accion"] == "relacion_articulo")
 {
-	$conection2 = new conexion_nexos(2);
+	$conection2 = new conexion_nexos($_SESSION['empresa']);
 
 	/*$query = "select TIPO_COMBO FROM MS_COMBOS WHERE ID=".$_POST['grupo_insumo'];
 		
@@ -167,7 +167,7 @@ if($_POST["accion"] == "relacion_articulo")
 
 if($_POST["accion"] == "eliminar_articulo")
 {
-	$conection2 = new conexion_nexos(2);
+	$conection2 = new conexion_nexos($_SESSION['empresa']);
 
 	$campos = array("ARTICULO_ID");
 	$valores = array($_POST['ID']);
@@ -182,7 +182,7 @@ if($_POST["accion"] == "eliminar_articulo")
 
 if($_POST["accion"] == "quitar_articulo")
 {
-	$conection2 = new conexion_nexos(2);
+	$conection2 = new conexion_nexos($_SESSION['empresa']);
 	$campos = array("ESTATUS", "FECHA_BAJA");
 	$valores = array(1, "'".DATE("Y-m-d H:i:s")."'");
 	$id = " ID in (".implode(",",$_POST['bajas']).")";
@@ -197,7 +197,7 @@ if($_POST["accion"] == "quitar_articulo")
 
 if($_POST["accion"] == "agregar_insumo_catalogo")
 {
-	$conection2 = new conexion_nexos(2);
+	$conection2 = new conexion_nexos($_SESSION['empresa']);
 	$campos = array("NOMBRE_ARTICULO", "MS_FAMILIA_ID", "CANTIDAD_MINIMA");
 	$valores = array("'".$_POST['insumo']."'",$_POST['familia'], $_POST['minimo']);
 

@@ -125,7 +125,7 @@ foreach($json as $arreglo)
 }
 
 
-$conection3 = new conexion_nexos(2);
+$conection3 = new conexion_nexos($_SESSION['empresa']);
 
 $json3 = $conection3->select_table_advanced($campos, "TABLEROPRODUCCION", $join, $condicionales, $order, 0);
 

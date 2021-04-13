@@ -235,7 +235,7 @@ exit;
 
 function datos()
 {
-    $conection = new conexion_nexos(2);
+    $conection = new conexion_nexos($_SESSION['empresa']);
 
         $query = "select
         PRODUCCIONPV.DOCTO_PV_ID,

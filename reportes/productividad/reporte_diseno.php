@@ -464,7 +464,7 @@ and empresa=0";
 
     }
 
-    $conexion2 = new conexion_nexos(2);
+    $conexion2 = new conexion_nexos($_SESSION['empresa']);
     $query = "select
 a.empresa,
 a.docto_ve_id,
@@ -744,7 +744,7 @@ group by a.operador,o.nombre, a.descripcion,a.cliente";
         
     }
 
-    $conexion2 = new conexion_nexos(2);
+    $conexion2 = new conexion_nexos($_SESSION['empresa']);
     $query = "select
 a.folio,    
 a.docto_ve_id,

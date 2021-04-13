@@ -400,7 +400,7 @@ $totalPrecio = 0;
 				$total_precio 	+= $row1->PRECIO;
 			}
 
-			$conection2 = new conexion_nexos(2);
+			$conection2 = new conexion_nexos($_SESSION['empresa']);
 			$result2 = ibase_query($conection2->getConexion(), $query2) or die(ibase_errmsg());
 
 			//$data2 = array();
@@ -540,7 +540,7 @@ function otros($join, $join2, $condicionales1, $condicionales2, $fecha1, $fecha2
 			$total_precio 	+= $row1->PRECIO;
 		}
 
-		$conection2 = new conexion_nexos(2);
+		$conection2 = new conexion_nexos($_SESSION['empresa']);
 		$result2 = ibase_query($conection2->getConexion(), $query2) or die(ibase_errmsg());
 
 		//$data2 = array();
@@ -613,7 +613,7 @@ function totalVentasGeneral($condicionales, $condicionales2, $condicionales3)
 						$total_notas += $row3->PRECIO;
         }
 
-        $conection2 = new conexion_nexos(2);
+        $conection2 = new conexion_nexos($_SESSION['empresa']);
         $result4 = ibase_query($conection2->getConexion(), $query) or die(ibase_errmsg());
         $result5 = ibase_query($conection2->getConexion(), $query2) or die(ibase_errmsg());
         $result6 = ibase_query($conection2->getConexion(), $query3) or die(ibase_errmsg());

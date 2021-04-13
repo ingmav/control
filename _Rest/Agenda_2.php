@@ -64,7 +64,7 @@ if($_POST['accion'] == "index")
 
     
     //Empieza la segunda ronda
-    $conection2 = new conexion_nexos(2);
+    $conection2 = new conexion_nexos($_SESSION['empresa']);
 
         /*Mostrador*/
         $condicionales_mostrador = "";
@@ -214,7 +214,7 @@ if($_POST['accion'] == "show_tarea")
 
 if($_POST['accion'] == "show")
 {
-    $conection = new conexion_nexos(2);
+    $conection = new conexion_nexos($_SESSION['empresa']);
 
     if($_POST['empresa'] != 3)
     {
@@ -539,7 +539,7 @@ if($_POST['accion'] == "verificaEficiencia")
         $conection1->update_table(array("REALIZADO"), "AGENDA", array("1"), $id2);
     }
 
-    $conection2 = new conexion_nexos(2);
+    $conection2 = new conexion_nexos($_SESSION['empresa']);
 
     $campos2 = array("TABLEROPRODUCCION.DOCTO_VE_DET_ID");
     $join2 = array("TABLEROPRODUCCION", "=", "PRODUCCION.IDTABLEROPRODUCCION", "TABLEROPRODUCCION.ID", "LEFT");

@@ -4,7 +4,7 @@ include("../clases/conexion.php");
 
 
 date_default_timezone_set('America/Mexico_City');
-$conection = new conexion_nexos(2);
+$conection = new conexion_nexos($_SESSION['empresa']);
 
 $query = "SELECT MAX(FOLIO) as folio FROM DOCTOS_VE WHERE TIPO_DOCTO='C' AND ESTATUS!='C'";
 $result = ibase_query($conection->getConexion(), $query) or die(ibase_errmsg());

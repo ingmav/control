@@ -37,7 +37,7 @@ try{
     }
 
 
-    $conection2 = new conexion_nexos(2);
+    $conection2 = new conexion_nexos($_SESSION['empresa']);
 
     $result2 = ibase_query($conection2->getConexion(), $query) or die(ibase_errmsg());
 

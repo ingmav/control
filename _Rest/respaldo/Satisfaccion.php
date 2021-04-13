@@ -168,7 +168,7 @@
 		$conection2 = new conexion_nexos(1);
 		$json2 = $conection2->counter("DOCTOS_VE", $join2, $condicionales2, 0);
 
-		$conection3 = new conexion_nexos(2);
+		$conection3 = new conexion_nexos($_SESSION['empresa']);
 		$json3 = $conection3->counter("DOCTOS_VE", $join2, $condicionales2, 0);
 		
 		$counter_final['PAGINADOR'] = $json2->PAGINADOR + $json3->PAGINADOR;

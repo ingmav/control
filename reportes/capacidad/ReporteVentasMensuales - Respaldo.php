@@ -493,7 +493,7 @@ IDC.impuesto";
       $arreglo1[$index]['IMPORTE_PAGO'] =           $row->IMPORTE_PAGO;
     }
 
-    $conexion2 = new conexion_nexos(2);
+    $conexion2 = new conexion_nexos($_SESSION['empresa']);
 
     $result2 = ibase_query($conexion2->getConexion(), $query) or die(ibase_errmsg());
 

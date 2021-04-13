@@ -192,7 +192,7 @@ exit;
 
 function ver_proveedor()
 {
-    $conexion = new conexion_nexos(2);
+    $conexion = new conexion_nexos($_SESSION['empresa']);
 
     $query =  "select
  nombre,

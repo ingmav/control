@@ -18,6 +18,7 @@
 		$condicionales = " AND OPERADOR.ALIAS='".$_POST['usernex']."' AND OPERADOR.PASSNEX='".$_POST['contrasenianex']."'";
 		
 		$order = array();
+		$_SESSION['empresa'] = $_POST['tipo_sistema'];
 
 		$conection = new conexion_nexos(1);
 		$json = $conection->select_table($campos, "OPERADOR", $join, $condicionales, $order, 0);

@@ -23,7 +23,7 @@
 
 	function ver_pagos_proveedor($consulta_filtro = "")
 	{
-	    $conexion = new conexion_nexos(2);
+	    $conexion = new conexion_nexos($_SESSION['empresa']);
 
 	    $query =  "select mp.factura, mpr.nombre, mp.fecha_factura, (sum(mp.monto) - sum(mp.descuento)) as monto, sum(mp.descuento) as descuento, sum(mp.monto) as monto_total, mpr.condicion_pago, mp.ms_proveedor_id, mp.descripcion  
 	    from ms_pagos mp,
@@ -91,7 +91,7 @@
 
 	if($_POST["accion"] == "pagar")
 	{
-		$conexion = new conexion_nexos(2);
+		$conexion = new conexion_nexos($_SESSION['empresa']);
 		$campos = array("PAGADO");
 		$valores = array(1);
 		$id = " FACTURA='".$_POST['factura']."' and ms_proveedor_id=".$_POST['proveedor'];
@@ -105,7 +105,7 @@
 
 	if($_POST["accion"] == "guardar_factura")
 	{
-		$conection2 = new conexion_nexos(2);
+		$conection2 = new conexion_nexos($_SESSION['empresa']);
 
 		
 		$cantidad = 0;
@@ -128,7 +128,7 @@
 	}
 	if($_POST["accion"] == "carga_monto")
 	{
-		$conection2 = new conexion_nexos(2);
+		$conection2 = new conexion_nexos($_SESSION['empresa']);
 
 		
 		$cantidad = 0;
@@ -153,7 +153,7 @@
 
 	if($_POST["accion"] == "guardar_descuento")
 	{
-		$conection2 = new conexion_nexos(2);
+		$conection2 = new conexion_nexos($_SESSION['empresa']);
 		$query1 = "update ms_pagos set descuento=".$_POST['monto']." where ms_proveedor_id=".$_POST['id_proveedor']." and factura='".$_POST['factura']."' order by id_pago asc rows 1";
         
         $json = array();
@@ -170,7 +170,7 @@
 
 	if($_POST["accion"] == "eliminar")
 	{
-		$conexion = new conexion_nexos(2);
+		$conexion = new conexion_nexos($_SESSION['empresa']);
 		
 		$condicionales = " and FACTURA_COMPRA='".$_POST['factura']."' and ms_proveedor_id=".$_POST['proveedor'];
 		//$count = $conexion->counter("MS_INVENTARIO", array(), $condicionales, 0);
@@ -223,7 +223,7 @@
 
 	if($_POST["accion"] == "informacion")
 	{
-		$conection2 = new conexion_nexos(2);
+		$conection2 = new conexion_nexos($_SESSION['empresa']);
 		
 		$cantidad = 0;
 		

@@ -188,7 +188,7 @@ exit;
 <?php
 function backup()
 {
-    $conexion = new conexion_nexos(2);
+    $conexion = new conexion_nexos($_SESSION['empresa']);
 
     $query1 = "select  
     CLIENTESCALL.ID AS ID,

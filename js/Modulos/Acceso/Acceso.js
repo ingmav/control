@@ -2,7 +2,7 @@
 function ingresar()
 {
 	
-	var variable = "accion=index&empresa=1&"+$("#Formingresar").serialize();
+	var variable = "accion=index&"+$("#Formingresar").serialize();
     RestFullRequest("_Rest/Acceso.php", variable, "Acceso");
 }
 

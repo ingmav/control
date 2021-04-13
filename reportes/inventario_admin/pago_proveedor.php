@@ -207,7 +207,7 @@ exit;
 
 function ver_pagos_proveedor($inicio, $fin)
 {
-    $conexion = new conexion_nexos(2);
+    $conexion = new conexion_nexos($_SESSION['empresa']);
 
    $query = "select mp.factura, mpr.nombre, mp.fecha_factura ,  (sum(mp.monto) - sum(mp.descuento)) as monto, sum(mp.descuento) as descuento, sum(mp.monto) as monto_total, mpr.condicion_pago, mp.ms_proveedor_id,mp.descripcion, mp.pagado  
                     from ms_pagos mp,
